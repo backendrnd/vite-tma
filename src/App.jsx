@@ -7,6 +7,10 @@ import WebApp from '@twa-dev/sdk'
 function App() {
   const [count, setCount] = useState(0)
 
+    const onClick = () => {
+        WebApp.showAlert(`Hello ${WebApp.initDataUnsafe.user.username}`);
+  }
+
   return (
     <>
       <div>
@@ -27,7 +31,7 @@ function App() {
         </p>
       </div>
         <div className="card">
-            <button onClick={() => WebApp.showAlert(`Hello World! Current count is ${count}`)}>
+            <button onClick={onClick}>
                 Show Alert
             </button>
         </div>
