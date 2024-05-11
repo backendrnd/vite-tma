@@ -7,7 +7,7 @@ import WebApp from '@twa-dev/sdk';
 function App() {
     const [count, setCount] = useState(0);
     const onClick = () => {
-        WebApp.showAlert(`Hello ${WebApp.initDataUnsafe.user.username}`);
+        WebApp.showAlert(`Hello ${WebApp.initDataUnsafe.user.first_name} ${WebApp.initDataUnsafe.user.last_name}`);
     };
 
     return (
