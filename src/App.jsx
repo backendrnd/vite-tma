@@ -20,7 +20,7 @@ function App() {
             </div>
             <h1>Vite + React</h1>
             <div className="card">
-                <a href={'/game'} type={'button'}>
+                <a href={'game.html'} type={'button'}>
                     Play Game
                 </a>
             </div>
