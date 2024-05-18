@@ -1,5 +1,3 @@
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
 import './App.css';
 import WebApp from '@twa-dev/sdk';
 
@@ -10,20 +8,28 @@ function App() {
 
     return (
         <>
-            <div>
-                <a href="https://vitejs.dev" target="_blank">
-                    <img src={viteLogo} className="logo" alt="Vite logo" />
-                </a>
-                <a href="https://react.dev" target="_blank">
-                    <img src={reactLogo} className="logo react" alt="React logo" />
-                </a>
-            </div>
-            <h1>Vite + React</h1>
-            <div className="card">
-                <a href={'game.html'} type={'button'}>
-                    Play Game
-                </a>
-            </div>
+            <section className="hero is-fullheight">
+                <div className="hero hero-head is-primary">
+                    <div className="container p-4">
+                        <p className="title">Shore.io</p>
+                        <p className="subtitle">PON mining</p>
+                    </div>
+                </div>
+
+                <div className="hero-body">
+                    <div className="container has-text-centered">
+                        <p className="title">0 PON</p>
+                    </div>
+                </div>
+
+                <div className="hero-foot">
+                    <div className="container has-text-centered p-2">
+                        <button className="button is-primary is-fullwidth" onClick={onClick}>
+                            Start farming
+                        </button>
+                    </div>
+                </div>
+            </section>
         </>
     );
 }
