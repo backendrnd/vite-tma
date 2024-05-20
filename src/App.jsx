@@ -1,4 +1,5 @@
 import './App.css';
+import Loader from './components/Loader.jsx';
 import Home from './components/Home.jsx';
 import Top from './components/Top.jsx';
 import { useState } from 'react';

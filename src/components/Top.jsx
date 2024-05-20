@@ -1,7 +1,9 @@
+import './Top.css';
+
 function Top() {
     return (
-        <>
-            <table className="table">
+        <div className="top">
+            <table className="table is-fullwidth">
                 <thead>
                     <tr>
                         <th>
@@ -15,9 +17,77 @@ function Top() {
                         <th>232323</th>
                         <td>AAAA</td>
                     </tr>
+                    <tr>
+                        <th>232323</th>
+                        <td>AAAA</td>
+                    </tr>
+                    <tr>
+                        <th>232323</th>
+                        <td>AAAA</td>
+                    </tr>
+                    <tr>
+                        <th>232323</th>
+                        <td>AAAA</td>
+                    </tr>
+                    <tr>
+                        <th>232323</th>
+                        <td>AAAA</td>
+                    </tr>
+                    <tr>
+                        <th>232323</th>
+                        <td>AAAA</td>
+                    </tr>
+                    <tr>
+                        <th>232323</th>
+                        <td>AAAA</td>
+                    </tr>
+                    <tr>
+                        <th>232323</th>
+                        <td>AAAA</td>
+                    </tr>
+                    <tr>
+                        <th>232323</th>
+                        <td>AAAA</td>
+                    </tr>
+                    <tr>
+                        <th>232323</th>
+                        <td>AAAA</td>
+                    </tr>
+                    <tr>
+                        <th>232323</th>
+                        <td>AAAA</td>
+                    </tr>
+                    <tr>
+                        <th>232323</th>
+                        <td>AAAA</td>
+                    </tr>
+                    <tr>
+                        <th>232323</th>
+                        <td>AAAA</td>
+                    </tr>
+                    <tr>
+                        <th>232323</th>
+                        <td>AAAA</td>
+                    </tr>
+                    <tr>
+                        <th>232323</th>
+                        <td>AAAA</td>
+                    </tr>
+                    <tr>
+                        <th>232323</th>
+                        <td>AAAA</td>
+                    </tr>
+                    <tr>
+                        <th>232323</th>
+                        <td>AAAA</td>
+                    </tr>
+                    <tr>
+                        <th>232323</th>
+                        <td>AAAA</td>
+                    </tr>
                 </tbody>
             </table>
-        </>
+        </div>
     );
 }
 
