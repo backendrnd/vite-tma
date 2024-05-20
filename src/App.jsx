@@ -1,66 +1,50 @@
 import './App.css';
-import WebApp from '@twa-dev/sdk';
-import useTimer from './hooks/useTimer.js';
+import Home from './components/Home.jsx';
+import Top from './components/Top.jsx';
+import { useState } from 'react';
 
-function getTimeString(time) {
-    const totalSeconds = parseInt(time, 10);
-    if (!totalSeconds) {
-        return '-:-';
+const Screens = {
+    HOME: 'home',
+    TOP: 'top',
+};
+
+const getScreen = (screen) => {
+    switch (screen) {
+        case Screens.HOME:
+            return <Home />;
+        case Screens.TOP:
+            return <Top />;
+        default:
+            return <></>;
     }
-    const hours = Math.floor(totalSeconds / 3600);
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-    const seconds = totalSeconds % 60;
-    return (
-        (hours === 0 ? '' : hours.toString().padStart(2, '0') + ':') +
-        minutes.toString().padStart(2, '0') +
-        ':' +
-        seconds.toString().padStart(2, '0')
-    );
-}
+};
 
 function App() {
-    const [seconds, setTimeout] = useTimer(0);
+    const [activeScreen, setActiveScreen] = useState(Screens.HOME);
 
-    const farmingValue = (10 - seconds) / 100;
-
-    const onClick = () => {
-        setTimeout(10);
-        WebApp.showAlert(`Hello ${WebApp.initDataUnsafe.user.first_name} ${WebApp.initDataUnsafe.user.last_name}`);
+    const ScreenButton = ({ title, screen, icon }) => {
+        return (
+            <button className="button is-multiline is-fullwidth is-active" onClick={() => setActiveScreen(screen)}>
+                <span className="icon-text">
+                    <span className="icon">
+                        <i className={`bx ${icon} bx-sm`}></i>
+                    </span>
+                </span>
+                <span>{title}</span>
+            </button>
+        );
     };
 
     return (
         <>
             <section className="hero is-fullheight">
-                <div className="hero hero-head is-primary">
-                    <div className="container p-4">
-                        <p className="title">Shore.io</p>
-                        <p className="subtitle">PON mining</p>
+                {getScreen(activeScreen)}
+                <div className="columns is-mobile has-text-centered is-gapless">
+                    <div className="column is-mobile is-centered is-vcentered">
+                        <ScreenButton title={'Home'} screen={Screens.HOME} icon={'bx-home-alt-2'} />
                     </div>
-                </div>
-
-                <div className="hero-body">
-                    <div className="container has-text-centered">
-                        <p className="title">0 PON</p>
-                        <p className="subtutle">{seconds > 0 ? <>Farming {farmingValue} PON</> : <>&nbsp;</>}</p>
-                    </div>
-                </div>
-
-                <div className="hero-foot">
-                    <div className="container has-text-centered p-2">
-                        {seconds > 0 ? (
-                            <button className="button is-fullwidth" disabled={true}>
-                                <span className="icon-text">
-                                    <span className="icon">
-                                        <i className="bx bx-time"></i>
-                                    </span>
-                                    &nbsp;{getTimeString(seconds)}
-                                </span>
-                            </button>
-                        ) : (
-                            <button className="button is-primary is-fullwidth" onClick={onClick}>
-                                Start farming
-                            </button>
-                        )}
+                    <div className="column is-mobile is-centered is-vcentered">
+                        <ScreenButton title={'Top'} screen={Screens.TOP} icon={'bxs-balloon'} />
                     </div>
                 </div>
             </section>

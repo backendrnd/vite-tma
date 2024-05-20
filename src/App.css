@@ -2,3 +2,12 @@
   max-width: 1280px;
   margin: 0 auto;
 }
+
+.button.is-multiline {
+  min-height: 2.25em;
+  white-space: unset;
+  height: auto;
+  flex-direction: column;
+  border: none;
+  background-color: transparent;
+}
