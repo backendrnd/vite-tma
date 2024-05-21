@@ -4,9 +4,8 @@ import App from './App.jsx';
 import './index.css';
 import WebApp from '@twa-dev/sdk';
 
-WebApp.ready();
-
 document.addEventListener('DOMContentLoaded', function () {
+    WebApp.ready();
     WebApp.expand();
 });
 
