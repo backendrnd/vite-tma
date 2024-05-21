@@ -44,6 +44,13 @@ function App() {
     return (
         <>
             <section className="hero is-fullheight">
+                <button
+                    onClick={() => {
+                        WebApp.expand();
+                    }}
+                >
+                    TEST
+                </button>
                 {getScreen(activeScreen)}
                 <div className="columns is-mobile has-text-centered is-gapless">
                     <div className="column is-mobile is-centered is-vcentered">
