@@ -2,7 +2,8 @@ import './App.css';
 import Loader from './components/Loader.jsx';
 import Home from './components/Home.jsx';
 import Top from './components/Top.jsx';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import WebApp from '@twa-dev/sdk';
 
 const Screens = {
     HOME: 'home',
@@ -22,6 +23,10 @@ const getScreen = (screen) => {
 
 function App() {
     const [activeScreen, setActiveScreen] = useState(Screens.HOME);
+
+    useEffect(() => {
+        WebApp.expand();
+    }, []);
 
     const ScreenButton = ({ title, screen, icon }) => {
         return (
