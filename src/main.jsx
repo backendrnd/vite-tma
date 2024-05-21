@@ -4,10 +4,12 @@ import App from './App.jsx';
 import './index.css';
 import WebApp from '@twa-dev/sdk';
 
-WebApp.expand();
 WebApp.ready();
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function () {});
+
+window.addEventListener('load', () => {
+    WebApp.expand();
 });
 
 ReactDOM.createRoot(document.getElementById('root')).render(
