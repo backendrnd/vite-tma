@@ -4,6 +4,7 @@ import App from './App.jsx';
 import './index.css';
 import WebApp from '@twa-dev/sdk';
 
+WebApp.expand();
 WebApp.ready();
 
 document.addEventListener('DOMContentLoaded', function () {
