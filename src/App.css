@@ -15,3 +15,7 @@ html {
   border: none;
   background-color: transparent;
 }
+
+.icon-text-time {
+  font-feature-settings: "tnum";
+}

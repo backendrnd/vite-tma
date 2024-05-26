@@ -3,17 +3,15 @@ import ReactDOM from 'react-dom/client';
 import App from './App.jsx';
 import './index.css';
 import WebApp from '@twa-dev/sdk';
+import { AppStoreProvider } from './stores/AppProvider';
 
 WebApp.ready();
-
-document.addEventListener('DOMContentLoaded', function () {});
-
-window.addEventListener('load', () => {
-    WebApp.expand();
-});
+WebApp.expand();
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
-        <App />
+        <AppStoreProvider>
+            <App />
+        </AppStoreProvider>
     </React.StrictMode>,
 );

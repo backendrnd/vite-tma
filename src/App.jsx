@@ -3,14 +3,19 @@ import Loader from './components/Loader.jsx';
 import Home from './components/Home.jsx';
 import Top from './components/Top.jsx';
 import { useState } from 'react';
+import { useAppStore } from './stores/AppProvider.jsx';
+import { observer } from 'mobx-react-lite';
 
 const Screens = {
+    LOADER: 'loader',
     HOME: 'home',
     TOP: 'top',
 };
 
 const getScreen = (screen) => {
     switch (screen) {
+        case Screens.LOADER:
+            return <Loader />;
         case Screens.HOME:
             return <Home />;
         case Screens.TOP:
@@ -20,10 +25,13 @@ const getScreen = (screen) => {
     }
 };
 
-function App() {
+const App = observer(function Top() {
     const [activeScreen, setActiveScreen] = useState(Screens.HOME);
+    const appStore = useAppStore();
 
-    const ScreenButton = ({ title, screen, icon }) => {
+    console.log('APP', appStore.user);
+
+    const ScreenButton = observer(function ScreenButton({ title, screen, icon }) {
         return (
             <button className="button is-multiline is-fullwidth is-active" onClick={() => setActiveScreen(screen)}>
                 <span className="icon-text">
@@ -34,7 +42,11 @@ function App() {
                 <span>{title}</span>
             </button>
         );
-    };
+    });
+
+    if (appStore.user === undefined || appStore.tasks === undefined) {
+        return <Loader />;
+    }
 
     return (
         <>
@@ -51,6 +63,6 @@ function App() {
             </section>
         </>
     );
-}
+});
 
 export default App;
