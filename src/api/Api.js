@@ -1,4 +1,4 @@
-const BACKEND_ENDPOINT = 'http://127.0.0.1:3000';
+const BACKEND_ENDPOINT = 'http://195.133.44.47:3000';
 
 const USER_ID = 1;
 
@@ -20,13 +20,33 @@ const USER_ID = 1;
  * @property {string} end_date
  */
 
+const _fetch = async (request) => {
+    const fetchResult = await fetch(request);
+    const result = await fetchResult.json();
+
+    if (fetchResult.ok) {
+        return result;
+    }
+
+    const responseError = {
+        type: 'Error',
+        message: result.message || 'Something went wrong',
+        data: result.data || '',
+        code: result.code || '',
+    };
+
+    let error = new Error();
+    error = { ...error, ...responseError };
+    throw error;
+};
+
 class Api {
     /**
      * Возвращает текущего пользователя
      * @returns {Promise<User>}
      */
     async getUser(userId = USER_ID) {
-        const response = await (await fetch(`${BACKEND_ENDPOINT}/users/${userId}`)).json();
+        const response = await _fetch(`${BACKEND_ENDPOINT}/users/${userId}`);
         return response[0];
     }
 
@@ -35,7 +55,7 @@ class Api {
      * @returns {Promise<User[]>}
      */
     async getUsers() {
-        return await (await fetch(`${BACKEND_ENDPOINT}/users`)).json();
+        return await _fetch(`${BACKEND_ENDPOINT}/users`);
     }
 
     /**
@@ -43,7 +63,7 @@ class Api {
      * @returns {Promise<Task[]>}
      */
     async getTasks(userId = USER_ID) {
-        return await (await fetch(`${BACKEND_ENDPOINT}/users/${userId}/tasks`)).json();
+        return await _fetch(`${BACKEND_ENDPOINT}/users/${userId}/tasks`);
     }
 
     /**
@@ -51,7 +71,7 @@ class Api {
      * @returns {Promise<?Task>}
      */
     async claimTask(userId, taskId) {
-        return await (await fetch(`${BACKEND_ENDPOINT}/users/${userId}/tasks/${taskId}`, { method: 'PUT' })).json();
+        return await _fetch(`${BACKEND_ENDPOINT}/users/${userId}/tasks/${taskId}`, { method: 'PUT' });
     }
 
     /**
@@ -59,7 +79,7 @@ class Api {
      * @returns {Promise<?Task>}
      */
     async requestTask(userId = USER_ID) {
-        return await (await fetch(`${BACKEND_ENDPOINT}/users/${userId}/tasks`, { method: 'PUT' })).json();
+        return await _fetch(`${BACKEND_ENDPOINT}/users/${userId}/tasks`, { method: 'PUT' });
     }
 }
 
