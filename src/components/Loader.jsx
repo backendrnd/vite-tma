@@ -1,3 +1,4 @@
+import WebApp from '@twa-dev/sdk';
 import { useAppStore } from '../stores/AppProvider.jsx';
 import { observer } from 'mobx-react-lite';
 import api from '../api/Api.js';
@@ -10,7 +11,11 @@ const Loader = observer(function Loader() {
     useEffect(() => {
         async function fetchData() {
             try {
-                appStore.setUser(await api.getUser());
+                const userId = WebApp?.initDataUnsafe?.user?.id || 2;
+                const userName = WebApp?.initDataUnsafe?.user?.first_name || 'Test';
+                api.userId = userId;
+                // appStore.setUser(await api.getUser());
+                appStore.setUser(await api.auth(api.userId, userName));
                 appStore.setTasks(await api.getTasks());
             } catch (e) {
                 setError(e.message);

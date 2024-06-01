@@ -1,8 +1,6 @@
 // const BACKEND_ENDPOINT = 'http://127.0.0.1:3000';
 const BACKEND_ENDPOINT = 'https://api.1518.tech';
 
-const USER_ID = 1;
-
 /**
  * @typedef {Object} User
  * @property {number} id
@@ -42,13 +40,14 @@ const _fetch = async (request, params) => {
 };
 
 class Api {
+    /** @type {?Number} */ userId;
+
     /**
      * Возвращает текущего пользователя
      * @returns {Promise<User>}
      */
-    async getUser(userId = USER_ID) {
-        const response = await _fetch(`${BACKEND_ENDPOINT}/users/${userId}`);
-        return response[0];
+    async getUser(userId = this.userId) {
+        return _fetch(`${BACKEND_ENDPOINT}/users/${userId}`);
     }
 
     /**
@@ -56,15 +55,15 @@ class Api {
      * @returns {Promise<User[]>}
      */
     async getUsers() {
-        return await _fetch(`${BACKEND_ENDPOINT}/users`);
+        return _fetch(`${BACKEND_ENDPOINT}/users`);
     }
 
     /**
      * Возвращает текущего пользователя
      * @returns {Promise<Task[]>}
      */
-    async getTasks(userId = USER_ID) {
-        return await _fetch(`${BACKEND_ENDPOINT}/users/${userId}/tasks`);
+    async getTasks(userId = this.userId) {
+        return _fetch(`${BACKEND_ENDPOINT}/users/${userId}/tasks`);
     }
 
     /**
@@ -79,8 +78,27 @@ class Api {
      * Возвращает текущего пользователя
      * @returns {Promise<?Task>}
      */
-    async requestTask(userId = USER_ID) {
+    async requestTask(userId = this.userId) {
         return await _fetch(`${BACKEND_ENDPOINT}/users/${userId}/tasks`, { method: 'PUT' });
+    }
+
+    /**
+     * Авторизует пользователя по ID
+     * @returns {Promise<User>}
+     */
+    async auth(id, username) {
+        const data = {
+            id: id,
+            username: username,
+        };
+        const params = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        };
+        return await _fetch(`${BACKEND_ENDPOINT}/users/auth`, params);
     }
 }
 
