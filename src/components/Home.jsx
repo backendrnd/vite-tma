@@ -52,8 +52,6 @@ const Home = observer(function Home() {
         // WebApp.showAlert(`Hello ${WebApp.initDataUnsafe.user.first_name} ${WebApp.initDataUnsafe.user.last_name}`);
     };
 
-    console.log('task', task);
-
     /**
      * @param {Task} task
      */

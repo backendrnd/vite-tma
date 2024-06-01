@@ -1,4 +1,5 @@
-const BACKEND_ENDPOINT = 'http://195.133.44.47:3000';
+// const BACKEND_ENDPOINT = 'http://127.0.0.1:3000';
+const BACKEND_ENDPOINT = 'https://api.1518.tech';
 
 const USER_ID = 1;
 
@@ -20,8 +21,8 @@ const USER_ID = 1;
  * @property {string} end_date
  */
 
-const _fetch = async (request) => {
-    const fetchResult = await fetch(request);
+const _fetch = async (request, params) => {
+    const fetchResult = await fetch(request, params);
     const result = await fetchResult.json();
 
     if (fetchResult.ok) {
