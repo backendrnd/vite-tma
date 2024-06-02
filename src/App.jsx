@@ -5,11 +5,15 @@ import Top from './components/Top.jsx';
 import { useState } from 'react';
 import { useAppStore } from './stores/AppProvider.jsx';
 import { observer } from 'mobx-react-lite';
+import Squad from './components/Squad.jsx';
+import Shop from "./components/Shop.jsx";
 
 const Screens = {
     LOADER: 'loader',
     HOME: 'home',
     TOP: 'top',
+    SQUAD: 'squad',
+    SHOP: 'shop',
 };
 
 const getScreen = (screen) => {
@@ -20,6 +24,10 @@ const getScreen = (screen) => {
             return <Home />;
         case Screens.TOP:
             return <Top />;
+        case Screens.SQUAD:
+            return <Squad />;
+        case Screens.SHOP:
+            return <Shop />;
         default:
             return <></>;
     }
@@ -55,6 +63,12 @@ const App = observer(function Top() {
                 <div className="columns is-mobile has-text-centered is-gapless">
                     <div className="column is-mobile is-centered is-vcentered">
                         <ScreenButton title={'Home'} screen={Screens.HOME} icon={'bx-home-alt-2'} />
+                    </div>
+                    <div className="column is-mobile is-centered is-vcentered">
+                        <ScreenButton title={'Shop'} screen={Screens.SHOP} icon={'bx-cart'} />
+                    </div>
+                    <div className="column is-mobile is-centered is-vcentered">
+                        <ScreenButton title={'Squad'} screen={Screens.SQUAD} icon={'bx-male-female'} />
                     </div>
                     <div className="column is-mobile is-centered is-vcentered">
                         <ScreenButton title={'Top'} screen={Screens.TOP} icon={'bxs-balloon'} />

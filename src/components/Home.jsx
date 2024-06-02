@@ -1,15 +1,14 @@
-import WebApp from '@twa-dev/sdk';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useAppStore } from '../stores/AppProvider.jsx';
 import { useForceUpdate } from '../hooks/useForceUpdate.js';
 import api from '../api/Api.js';
 
 function getTimeString(time) {
-    const totalSeconds = parseInt(time, 10);
-    if (!totalSeconds) {
+    if (time === undefined) {
         return '-:-';
     }
+    const totalSeconds = parseInt(time, 10);
     const hours = Math.floor(totalSeconds / 3600);
     const minutes = Math.floor((totalSeconds % 3600) / 60);
     const seconds = totalSeconds % 60;
@@ -25,15 +24,18 @@ const Home = observer(function Home() {
     const appStore = useAppStore();
     const forceUpdate = useForceUpdate();
     const intervalRef = useRef(undefined);
+    const [error, setError] = useState();
 
     const task = appStore.tasks[0];
 
-    const nowDate = new Date();
+    const nowDate = new Date(); // TODO: add fixer
     const taskEndDate = new Date(task?.end_date);
     const taskStartDate = new Date(task?.start_date);
 
     const seconds = (taskEndDate - nowDate) / 1000;
-    const farmingValue = ((taskEndDate - taskStartDate) / 1000 - seconds) / task?.value;
+    const totalSeconds = (taskEndDate - taskStartDate) / 1000;
+    const secondsElapsed = Math.min((nowDate - taskStartDate) / 1000, totalSeconds);
+    const farmingValue = Math.max(0, (task?.value * secondsElapsed) / totalSeconds);
 
     if (seconds > 0 && !intervalRef.current) {
         intervalRef.current = setInterval(() => {
@@ -53,13 +55,17 @@ const Home = observer(function Home() {
     };
 
     /**
-     * @param {Task} task
+     * @param {{id: number}} task
      */
     const onClaimTask = async (task) => {
-        const taskClaimed = await api.claimTask(task.user_id, task.id);
-        if (taskClaimed !== null) {
-            appStore.setUser(await api.getUser());
-            appStore.setTasks(await api.getTasks());
+        try {
+            const taskClaimed = await api.claimTask(task.user_id, task.id);
+            if (taskClaimed !== null) {
+                appStore.setUser(await api.getUser());
+                appStore.setTasks(await api.getTasks());
+            }
+        } catch (e) {
+            setError(e.message);
         }
     };
 
@@ -76,19 +82,18 @@ const Home = observer(function Home() {
                     <p className="title">{appStore.user.balance} PON</p>
                     <p className="subtitle">{seconds > 0 ? <>Farming {farmingValue.toFixed(2)} PON</> : <>&nbsp;</>}</p>
                 </div>
-                <div className="modal">
-                    <div className="modal-background"></div>
-                    <div className="modal-content">
-                        <div className="notification">
-                            <button className="delete"></button>
-                            Primar lorem ipsum dolor sit amet, consectetur adipiscing elit lorem ipsum dolor.{' '}
-                            <strong>Pellentesque risus mi</strong>, tempus quis placerat ut, porta nec nulla. Vestibulum
-                            rhoncus ac ex sit amet fringilla. Nullam gravida purus diam, et dictum{' '}
-                            <a>felis venenatis</a> efficitur.
+                {error && (
+                    <div className="modal is-active">
+                        <div className="modal-background"></div>
+                        <div className="modal-content">
+                            <div className="notification is-danger">
+                                <button className="delete" onClick={() => setError(null)}></button>
+                                {error}
+                            </div>
                         </div>
+                        <button className="modal-close is-large" aria-label="close"></button>
                     </div>
-                    <button className="modal-close is-large" aria-label="close"></button>
-                </div>
+                )}
             </div>
             <div className="hero-foot">
                 <div className="container has-text-centered p-2">
