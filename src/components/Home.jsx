@@ -3,6 +3,7 @@ import { observer } from 'mobx-react-lite';
 import { useAppStore } from '../stores/AppProvider.jsx';
 import { useForceUpdate } from '../hooks/useForceUpdate.js';
 import api from '../api/Api.js';
+import ErrorNotification from './ErrorNotification.jsx';
 
 function getTimeString(time) {
     if (time === undefined) {
@@ -82,18 +83,7 @@ const Home = observer(function Home() {
                     <p className="title">{appStore.user.balance} PON</p>
                     <p className="subtitle">{seconds > 0 ? <>Farming {farmingValue.toFixed(2)} PON</> : <>&nbsp;</>}</p>
                 </div>
-                {error && (
-                    <div className="modal is-active">
-                        <div className="modal-background"></div>
-                        <div className="modal-content">
-                            <div className="notification is-danger">
-                                <button className="delete" onClick={() => setError(null)}></button>
-                                {error}
-                            </div>
-                        </div>
-                        <button className="modal-close is-large" aria-label="close"></button>
-                    </div>
-                )}
+                <ErrorNotification error={error} setError={setError} />
             </div>
             <div className="hero-foot">
                 <div className="container has-text-centered p-2">
