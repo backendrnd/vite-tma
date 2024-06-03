@@ -1,9 +1,10 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useAppStore } from '../stores/AppProvider.jsx';
-import { useForceUpdate } from '../hooks/useForceUpdate.js';
 import api from '../api/Api.js';
-import ErrorNotification from './ErrorNotification.jsx';
+import ErrorNotification from '../components/ErrorNotification.jsx';
+import { COIN_TOKEN } from '../constants/main.js';
+import { useTimer } from '../hooks/useTimer.js';
 
 function getTimeString(time) {
     if (time === undefined) {
@@ -21,10 +22,8 @@ function getTimeString(time) {
     );
 }
 
-const Home = observer(function Home() {
+const HomeScreen = observer(function Home() {
     const appStore = useAppStore();
-    const forceUpdate = useForceUpdate();
-    const intervalRef = useRef(undefined);
     const [error, setError] = useState();
 
     const task = appStore.tasks[0];
@@ -33,19 +32,10 @@ const Home = observer(function Home() {
     const taskEndDate = new Date(task?.end_date);
     const taskStartDate = new Date(task?.start_date);
 
-    const seconds = (taskEndDate - nowDate) / 1000;
+    const seconds = useTimer((taskEndDate - nowDate) / 1000);
     const totalSeconds = (taskEndDate - taskStartDate) / 1000;
     const secondsElapsed = Math.min((nowDate - taskStartDate) / 1000, totalSeconds);
     const farmingValue = Math.max(0, (task?.value * secondsElapsed) / totalSeconds);
-
-    if (seconds > 0 && !intervalRef.current) {
-        intervalRef.current = setInterval(() => {
-            forceUpdate();
-        }, 1000);
-    } else if (seconds <= 0 && intervalRef.current !== undefined) {
-        clearInterval(intervalRef.current);
-        intervalRef.current = undefined;
-    }
 
     const onStartFarming = async () => {
         const task = await api.requestTask();
@@ -72,16 +62,26 @@ const Home = observer(function Home() {
 
     return (
         <>
-            <div className="hero hero-head is-primary">
+            <div className="hero hero-head is-main">
                 <div className="container p-4">
-                    <p className="title">Shore.io</p>
-                    <p className="subtitle">PON mining</p>
+                    <p className="title is-main">Lapka Game</p>
+                    <p className="subtitle">&nbsp;</p>
                 </div>
             </div>
             <div className="hero-body">
                 <div className="container has-text-centered">
-                    <p className="title">{appStore.user.balance} PON</p>
-                    <p className="subtitle">{seconds > 0 ? <>Farming {farmingValue.toFixed(2)} PON</> : <>&nbsp;</>}</p>
+                    <p className="title">
+                        {appStore.user.balance} {COIN_TOKEN}
+                    </p>
+                    <p className="subtitle">
+                        {seconds > 0 ? (
+                            <>
+                                Farming {farmingValue.toFixed(2)} {COIN_TOKEN}
+                            </>
+                        ) : (
+                            <>&nbsp;</>
+                        )}
+                    </p>
                 </div>
                 <ErrorNotification error={error} setError={setError} />
             </div>
@@ -121,7 +121,7 @@ const ActionButton = observer(function ActionButton({ task, seconds, onStartFarm
         case seconds <= 0:
             return (
                 <button className="button is-primary is-fullwidth is-warning" onClick={() => onClaimTask(task)}>
-                    Claim {task.value} TON
+                    Claim {task.value} {COIN_TOKEN}
                 </button>
             );
         default:
@@ -129,4 +129,4 @@ const ActionButton = observer(function ActionButton({ task, seconds, onStartFarm
     }
 });
 
-export default Home;
+export default HomeScreen;

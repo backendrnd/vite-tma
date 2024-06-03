@@ -1,8 +1,9 @@
 import './Top.css';
 import { useEffect, useState } from 'react';
 import api from '../api/Api.js';
+import { COIN_TOKEN } from '../constants/main.js';
 
-function Top() {
+function TopScreen() {
     const [users, setUsers] = useState(/** @type {User[]} */ []);
 
     useEffect(() => {
@@ -18,7 +19,7 @@ function Top() {
             <table className="table is-fullwidth">
                 <thead>
                     <tr>
-                        <th>PON</th>
+                        <th>{COIN_TOKEN}</th>
                         <th>User</th>
                     </tr>
                 </thead>
@@ -35,4 +36,4 @@ function Top() {
     );
 }
 
-export default Top;
+export default TopScreen;

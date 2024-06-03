@@ -1,12 +1,12 @@
 import './App.css';
-import Loader from './components/Loader.jsx';
-import Home from './components/Home.jsx';
-import Top from './components/Top.jsx';
+import LoaderScreen from './screens/LoaderScreen.jsx';
+import HomeScreen from './screens/HomeScreen.jsx';
+import TopScreen from './screens/TopScreen.jsx';
 import { useState } from 'react';
 import { useAppStore } from './stores/AppProvider.jsx';
 import { observer } from 'mobx-react-lite';
 import Squad from './components/Squad.jsx';
-import Shop from "./components/Shop.jsx";
+import ShopScreen from './screens/ShopScreen.jsx';
 
 const Screens = {
     LOADER: 'loader',
@@ -19,15 +19,15 @@ const Screens = {
 const getScreen = (screen) => {
     switch (screen) {
         case Screens.LOADER:
-            return <Loader />;
+            return <LoaderScreen />;
         case Screens.HOME:
-            return <Home />;
+            return <HomeScreen />;
         case Screens.TOP:
-            return <Top />;
+            return <TopScreen />;
         case Screens.SQUAD:
             return <Squad />;
         case Screens.SHOP:
-            return <Shop />;
+            return <ShopScreen />;
         default:
             return <></>;
     }
@@ -53,7 +53,7 @@ const App = observer(function Top() {
     });
 
     if (appStore.user === undefined || appStore.tasks === undefined) {
-        return <Loader />;
+        return <LoaderScreen />;
     }
 
     return (

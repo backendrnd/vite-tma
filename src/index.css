@@ -9,3 +9,11 @@ body {
   min-width: 320px;
   min-height: 100vh;
 }
+
+.hero.is-main {
+  background-color: #111111;
+}
+
+.title.is-main {
+  color: #FF7F00;
+}

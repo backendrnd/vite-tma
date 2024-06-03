@@ -1,8 +1,10 @@
-import ErrorNotification from './ErrorNotification.jsx';
+import ErrorNotification from '../components/ErrorNotification.jsx';
 import { useState } from 'react';
 import api from '../api/Api.js';
+import { COIN_TOKEN } from '../constants/main.js';
+import { useAppStore } from '../stores/AppProvider.jsx';
 
-function Shop() {
+function ShopScreen() {
     const [error, setError] = useState();
 
     const onBuyItem = async (itemId) => {
@@ -18,15 +20,15 @@ function Shop() {
             <ShopItem
                 icon={'shop_icon_powerup.png'}
                 title={'Space 1'}
-                description={'Speeds up PON mining by 2 times for 24 hours'}
+                description={`Speeds up ${COIN_TOKEN} mining by 2 times for 24 hours`}
                 price={100}
                 onBuy={() => onBuyItem(1)}
             />
             <ShopItem
                 icon={'shop_icon_fire.png'}
                 title={'Fire!'}
-                description={'Burns 200 PON from the leader. Can be used once every 24 hours'}
-                price={200}
+                description={`Burns 200 ${COIN_TOKEN} from the leader. Can be used once every 24 hours`}
+                price={20000}
                 onBuy={() => onBuyItem(2)}
             />
             <ErrorNotification error={error} setError={setError} />
@@ -35,6 +37,8 @@ function Shop() {
 }
 
 const ShopItem = ({ icon, title, description, price, onBuy }) => {
+    const appStore = useAppStore();
+    const isAvailable = appStore.user.balance >= price;
     return (
         <div className="box">
             <article className="media">
@@ -52,11 +56,11 @@ const ShopItem = ({ icon, title, description, price, onBuy }) => {
                     </div>
                 </div>
             </article>
-            <button className="button is-primary" disabled={true} onClick={onBuy}>
-                Buy for {price} PON
+            <button className={'button' + (isAvailable ? ' is-primary' : '')} disabled={!isAvailable} onClick={onBuy}>
+                Buy for {price} {COIN_TOKEN}
             </button>
         </div>
     );
 };
 
-export default Shop;
+export default ShopScreen;

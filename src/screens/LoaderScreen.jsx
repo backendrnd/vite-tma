@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 import api from '../api/Api.js';
 import { useEffect, useState } from 'react';
 
-const Loader = observer(function Loader() {
+const LoaderScreen = observer(function Loader() {
     const appStore = useAppStore();
     const [error, setError] = useState();
 
@@ -29,8 +29,8 @@ const Loader = observer(function Loader() {
         <section className="hero is-fullheight">
             <div className="hero hero-head is-primary">
                 <div className="container p-4">
-                    <p className="title">Shore.io</p>
-                    <p className="subtitle">PON mining</p>
+                    <p className="title is-main">Lapka Game</p>
+                    <p className="subtitle">&nbsp;</p>
                 </div>
             </div>
             <div className="hero-body">
@@ -51,4 +51,4 @@ const Loader = observer(function Loader() {
     );
 });
 
-export default Loader;
+export default LoaderScreen;
