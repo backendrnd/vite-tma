@@ -1,5 +1,5 @@
-const BACKEND_ENDPOINT = 'http://127.0.0.1:3000';
-// const BACKEND_ENDPOINT = 'https://api.1518.tech';
+// const BACKEND_ENDPOINT = 'http://127.0.0.1:3000';
+const BACKEND_ENDPOINT = 'https://api.1518.tech';
 
 /**
  * @typedef {Object} User
