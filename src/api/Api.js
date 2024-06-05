@@ -101,11 +101,15 @@ class Api {
         return await _fetch(`${BACKEND_ENDPOINT}/users/auth`, params);
     }
 
+    async getItems(userId = this.userId) {
+        return await _fetch(`${BACKEND_ENDPOINT}/users/${userId}/items`);
+    }
+
     /**
      * Покупка
      */
     async buyItem(userId, itemId) {
-        return await _fetch(`${BACKEND_ENDPOINT}/users/${userId}/items/${itemId}`, { method: 'PUT' });
+        return await _fetch(`${BACKEND_ENDPOINT}/users/${userId}/items/${itemId}`, { method: 'POST' });
     }
 }
 

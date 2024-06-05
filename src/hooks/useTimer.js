@@ -6,12 +6,14 @@ export function useTimer(seconds) {
     const intervalRef = useRef(undefined);
 
     useEffect(() => {
-        intervalRef.current = setInterval(() => {
-            console.log('HERE', seconds);
-            if (seconds > 0) {
-                forceUpdate();
-            }
-        }, 1000);
+        if (seconds) {
+            intervalRef.current = setInterval(() => {
+                console.log('HERE', seconds);
+                if (seconds > 0) {
+                    forceUpdate();
+                }
+            }, 1000);
+        }
         return () => {
             clearInterval(intervalRef.current);
             intervalRef.current = undefined;

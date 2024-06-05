@@ -1,36 +1,141 @@
-import ErrorNotification from '../components/ErrorNotification.jsx';
-import { useState } from 'react';
+import { ErrorNotification } from '../components/Notification.jsx';
+import {useEffect, useState} from 'react';
 import api from '../api/Api.js';
 import { COIN_TOKEN } from '../constants/main.js';
 import { useAppStore } from '../stores/AppProvider.jsx';
 
+const ITEMS_CODE = {
+    VOLUME_1: 1,
+    VOLUME_2: 2,
+    VOLUME_3: 3,
+    VOLUME_4: 4,
+    VOLUME_5: 5,
+    VOLUME_6: 6,
+    TIME_1: 11,
+    TIME_2: 12,
+    TIME_3: 13,
+    TIME_4: 14,
+    TIME_5: 15,
+    HALF_50: 100,
+    FIRE: 101,
+};
+
 const ITEMS = [
     {
+        id: ITEMS_CODE.VOLUME_1,
         icon: 'shop_icon_0.png',
-        title: 'Volume',
-        description: [
-            `Increases the volume of mined ${COIN_TOKEN} by 1.5 times`,
-            `Increases the volume of mined ${COIN_TOKEN} by 2 times`,
-        ],
-        price: [
-            [1000, 0],
-            [2500, 0],
-        ],
-        maxPurchases: 2,
+        title: 'Volume (1 level)',
+        description: `Increases the volume of mined ${COIN_TOKEN} by 1.25 times`,
+        price: [1000, 0],
+        hideIfBought: true,
+        limit: 1,
     },
     {
+        id: ITEMS_CODE.VOLUME_2,
+        icon: 'shop_icon_0.png',
+        title: 'Volume (2 level)',
+        description: `Increases the volume of mined ${COIN_TOKEN} by 1.5 times`,
+        price: [2500, 0],
+        required: ITEMS_CODE.VOLUME_1,
+        hideIfBought: true,
+        limit: 1,
+    },
+    {
+        id: ITEMS_CODE.VOLUME_3,
+        icon: 'shop_icon_0.png',
+        title: 'Volume (3 level)',
+        description: `Increases the volume of mined ${COIN_TOKEN} by 3 times`,
+        price: [7500, 0],
+        required: ITEMS_CODE.VOLUME_2,
+        hideIfBought: true,
+        limit: 1,
+    },
+    {
+        id: ITEMS_CODE.VOLUME_4,
+        icon: 'shop_icon_0.png',
+        title: 'Volume (4 level)',
+        description: `Increases the volume of mined ${COIN_TOKEN} by 5 times`,
+        price: [30000, 0],
+        required: ITEMS_CODE.VOLUME_3,
+        hideIfBought: true,
+        limit: 1,
+    },
+    {
+        id: ITEMS_CODE.VOLUME_5,
+        icon: 'shop_icon_0.png',
+        title: 'Volume (5 level)',
+        description: `Increases the volume of mined ${COIN_TOKEN} by 8 times`,
+        price: [200000, 0],
+        required: ITEMS_CODE.VOLUME_4,
+        hideIfBought: true,
+        limit: 1,
+    },
+    {
+        id: ITEMS_CODE.VOLUME_6,
+        icon: 'shop_icon_0.png',
+        title: 'Volume (6 level)',
+        description: `Increases the volume of mined ${COIN_TOKEN} by 13 times`,
+        price: [700000, 0],
+        required: ITEMS_CODE.VOLUME_5,
+        limit: 1,
+    },
+    {
+        id: ITEMS_CODE.TIME_1,
         icon: 'shop_icon_1.png',
-        title: 'Time',
+        title: 'Time (1 Level)',
         description: `Increases mining time up to 2 hours`,
-        price: [0, 1],
+        price: [2000, 0],
+        hideIfBought: true,
+        limit: 1,
     },
     {
+        id: ITEMS_CODE.TIME_2,
+        icon: 'shop_icon_1.png',
+        title: 'Time (2 Level)',
+        description: `Increases mining time up to 4 hours`,
+        price: [4000, 0],
+        required: ITEMS_CODE.TIME_1,
+        hideIfBought: true,
+        limit: 1,
+    },
+    {
+        id: ITEMS_CODE.TIME_3,
+        icon: 'shop_icon_1.png',
+        title: 'Time (3 Level)',
+        description: `Increases mining time up to 8 hours`,
+        price: [8000, 0],
+        required: ITEMS_CODE.TIME_2,
+        hideIfBought: true,
+        limit: 1,
+    },
+    {
+        id: ITEMS_CODE.TIME_4,
+        icon: 'shop_icon_1.png',
+        title: 'Time (4 Level)',
+        description: `Increases mining time up to 16 hours`,
+        price: [16000, 0],
+        required: ITEMS_CODE.TIME_3,
+        hideIfBought: true,
+        limit: 1,
+    },
+    {
+        id: ITEMS_CODE.TIME_5,
+        icon: 'shop_icon_1.png',
+        title: 'Time (5 Level)',
+        description: `Increases mining time up to 24 hours`,
+        price: [32000, 0],
+        required: ITEMS_CODE.TIME_4,
+        limit: 1,
+    },
+    {
+        id: ITEMS_CODE.HALF_50,
         icon: 'shop_icon_2.png',
         title: '50 / 50',
         description: `Get 0 or 200 ${COIN_TOKEN}`,
         price: [100, 0],
     },
     {
+        id: ITEMS_CODE.FIRE,
         icon: 'shop_icon_fire.png',
         title: 'Fire',
         description: `Burns 1000 ${COIN_TOKEN} from the leader`,
@@ -40,38 +145,55 @@ const ITEMS = [
 
 function ShopScreen() {
     const [error, setError] = useState();
+    const appStore = useAppStore();
+    const [purchases, setPurchases] = useState([]);
 
     const onBuyItem = async (itemId) => {
         try {
-            await api.buyItem(api.userId, itemId);
+            const item = await api.buyItem(api.userId, itemId);
+            if (item !== null) {
+                appStore.setUser(await api.getUser());
+                setPurchases(await api.getItems());
+            }
         } catch (e) {
             setError(e.message);
         }
     };
 
-    const purchases = [1, 0, 0, 0];
+    useEffect(() => {
+        async function fetchData() {
+            setPurchases(await api.getItems());
+        }
+        // noinspection JSIgnoredPromiseFromCall
+        fetchData();
+    }, []);
+
+    console.log('purchases', purchases);
 
     return (
         <div className="top">
             {ITEMS.map((item, index) => (
-                <ShopItem
-                    key={index}
-                    icon={item.icon}
-                    title={item.title}
-                    description={item.maxPurchases ? item.description[purchases[index]] : item.description}
-                    price={item.maxPurchases ? item.price[purchases[index]] : item.price}
-                    onBuy={() => onBuyItem(index)}
-                />
+                <ShopItem key={index} item={item} purchases={purchases} onBuy={() => onBuyItem(item.id)} />
             ))}
             <ErrorNotification error={error} setError={setError} />
         </div>
     );
 }
 
-const ShopItem = ({ icon, title, description, price, onBuy }) => {
+const ShopItem = ({ item, purchases, onBuy }) => {
+    const { icon, title, description, price } = item;
     const appStore = useAppStore();
     const [tokenPrice, premiumPrice] = price;
-    const isAvailable = appStore.user.balance >= tokenPrice && 0 >= premiumPrice;
+    const isAvailable =
+        appStore.user.balance >= tokenPrice &&
+        0 >= premiumPrice &&
+        (purchases[item.id] || 0) < (item.limit || Number.MAX_SAFE_INTEGER);
+    if (
+        (item.hideIfBought && (purchases[item.id] || 0) > 0) ||
+        (item.required !== undefined && (purchases[item.required] || 0) === 0)
+    ) {
+        return '';
+    }
     let priceText;
     if (tokenPrice && premiumPrice) {
         priceText = (
@@ -94,6 +216,10 @@ const ShopItem = ({ icon, title, description, price, onBuy }) => {
             </>
         );
     }
+
+    const buttonTitle =
+        (purchases[item.id] || 0) < (item.limit || Number.MAX_SAFE_INTEGER) ? <>Buy for {priceText}</> : 'Max Limit';
+
     return (
         <div className="box">
             <article className="media">
@@ -112,7 +238,7 @@ const ShopItem = ({ icon, title, description, price, onBuy }) => {
                 </div>
             </article>
             <button className={'button' + (isAvailable ? ' is-primary' : '')} disabled={!isAvailable} onClick={onBuy}>
-                Buy for {priceText}
+                {buttonTitle}
             </button>
         </div>
     );

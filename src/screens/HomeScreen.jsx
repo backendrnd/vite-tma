@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useAppStore } from '../stores/AppProvider.jsx';
 import api from '../api/Api.js';
-import ErrorNotification from '../components/ErrorNotification.jsx';
+import { ErrorNotification } from '../components/Notification.jsx';
 import { COIN_TOKEN } from '../constants/main.js';
 import { useTimer } from '../hooks/useTimer.js';
 
