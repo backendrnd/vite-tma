@@ -43,6 +43,7 @@ html {
   width: 260px;
   height: 260px;
   user-select: none;
+  touch-action: none;
 }
 
 .is-ticket {
