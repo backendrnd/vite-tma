@@ -42,6 +42,7 @@ html {
   font-size: 260px;
   width: 260px;
   height: 260px;
+  user-select: none;
 }
 
 .is-ticket {
@@ -92,8 +93,6 @@ html {
   }
 }
 
-.icon.is-ready{animation:vibrate 0.2s linear both infinite} @keyframes vibrate{0%{transform:translate(0)}20%{transform:translate(-2px,2px)}40%{transform:translate(-2px,-2px)}60%{transform:translate(2px,2px)}80%{transform:translate(2px,-2px)}100%{transform:translate(0)}}
-
 .progress.experience {
   height: 8px;
   margin-top: 8px;
@@ -115,4 +114,49 @@ html {
   background: black;
   height: calc(100vh - 42px - 48px - 62px);
   overflow-y: auto;
+}
+
+li.is-disabled {
+  pointer-events: none;
+  cursor: default;
+  background: black;
+}
+
+li.is-disabled > a {
+  color: gray;
+}
+
+.point {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  z-index: 2;
+  width: 40px;
+  height: 40px;
+  font-weight: 700;
+  font-size: 30px;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 40px;
+  pointer-events: none;
+  animation: 1s ease-out alternate 0s flow;
+  opacity: 1;
+  color: #FF7F00;
+  -webkit-text-stroke: 1px black;
+}
+
+@keyframes flow {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-100px);
+    opacity: 0;
+  }
+}
+
+.fade-out {
+  opacity: 0;
+  transition: visibility 0s 2s, opacity 2s linear;
 }

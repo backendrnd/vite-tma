@@ -22,7 +22,7 @@ function getTimeString(time) {
     );
 }
 
-const MiningScreen = observer(function MiningScreen() {
+const FarmingScreen = observer(function FarmingScreen() {
     const appStore = useAppStore();
     const [error, setError] = useState();
 
@@ -96,6 +96,16 @@ const MiningScreen = observer(function MiningScreen() {
                     </p>
                 </div>
             </div>
+            <div className="container has-text-centered p-2">
+                <button className="button is-main is-fullwidth h-60">
+                    Play a game
+                    <div className="button-icon__right">
+                        <span className="icon is-small ml-0 is-ticket">
+                            <i className="fi fi-ss-ticket"></i>
+                        </span>
+                    </div>
+                </button>
+            </div>
             <div className="hero-body p-0">
                 <ErrorNotification error={error} setError={setError} />
             </div>
@@ -143,4 +153,4 @@ const ActionButton = observer(function ActionButton({ task, seconds, onStartFarm
     }
 });
 
-export default MiningScreen;
+export default FarmingScreen;

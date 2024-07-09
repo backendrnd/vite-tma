@@ -7,7 +7,7 @@ import { useAppStore } from './stores/AppProvider.jsx';
 import { observer } from 'mobx-react-lite';
 import ShopScreen from './screens/ShopScreen.jsx';
 import TODOScreen from './screens/TODOScreen.jsx';
-import MiningScreen from './screens/MiningScreen';
+import FarmingScreen from './screens/FarmingScreen.jsx';
 import TasksScreen from './screens/TasksScreen.jsx';
 
 const Screens = {
@@ -15,7 +15,7 @@ const Screens = {
     HOME: 'home',
     TASKS: 'tasks',
     TOP: 'top',
-    MINING: 'mining',
+    FARMING: 'farming',
     FRIENDS: 'friends',
     SHOP: 'shop',
 };
@@ -34,8 +34,8 @@ const getScreen = (screen) => {
             return <TODOScreen />;
         case Screens.SHOP:
             return <ShopScreen />;
-        case Screens.MINING:
-            return <MiningScreen />;
+        case Screens.FARMING:
+            return <FarmingScreen />;
         default:
             return <></>;
     }
@@ -71,7 +71,7 @@ const App = observer(function App() {
                 {getScreen(activeScreen)}
                 <div className="columns is-mobile has-text-centered is-gapless">
                     <div className="column is-mobile is-centered is-vcentered">
-                        <ScreenButton title={'Mining'} screen={Screens.MINING} icon={'fi-ss-pickaxe'} />
+                        <ScreenButton title={'Farming'} screen={Screens.FARMING} icon={'fi-ss-ram'} />
                     </div>
                     <div className="column is-mobile is-centered is-vcentered">
                         <ScreenButton title={'Tasks'} screen={Screens.TASKS} icon={'fi-ss-note'} />
@@ -83,7 +83,7 @@ const App = observer(function App() {
                         <ScreenButton title={'Shop'} screen={Screens.SHOP} icon={'fi-ss-shopping-cart'} />
                     </div>
                     <div className="column is-mobile is-centered is-vcentered">
-                        <ScreenButton title={'Top'} screen={Screens.TOP} icon={'fi-ss-ranking-podium'} />
+                        <ScreenButton title={'Friends'} screen={Screens.FRIENDS} icon={'fi-ss-users'} />
                     </div>
                 </div>
             </section>

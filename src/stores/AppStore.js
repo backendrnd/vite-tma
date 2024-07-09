@@ -21,4 +21,8 @@ export class AppStore {
     changeEnergy(amount) {
         this.energy = this.energy + amount;
     }
+
+    setBalance(balance) {
+        this.user.balance = balance;
+    }
 }

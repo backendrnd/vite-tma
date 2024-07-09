@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useAppStore } from '../stores/AppProvider.jsx';
 import api from '../api/Api.js';
@@ -25,6 +25,7 @@ function getTimeString(time) {
 const HomeScreen = observer(function Home() {
     const appStore = useAppStore();
     const [error, setError] = useState();
+    const clicksRef = useRef(0);
 
     const task = appStore.tasks[0];
 
@@ -60,7 +61,17 @@ const HomeScreen = observer(function Home() {
         }
     };
 
-    const onClick = () => {
+    const onClick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        clicksRef.current++;
+        const el = document.createElement('div');
+        el.className = 'point fade-out';
+        el.innerText = '+1';
+        el.style.left = `${e.clientX - 20}px`;
+        el.style.top = `${e.clientY - 20}px`;
+        document.getElementsByClassName('point')[clicksRef.current % 10].replaceWith(el);
+
         const degRandom = Math.floor(Math.random() * 20) - 10;
         const newspaperSpinning = [
             { transform: 'rotate(0) scale(1)' },
@@ -74,7 +85,7 @@ const HomeScreen = observer(function Home() {
 
         const newspaper = document.getElementById('main-button');
         newspaper.animate(newspaperSpinning, newspaperTiming);
-        appStore.user.balance = appStore.user.balance + 1;
+        appStore.setBalance(appStore.user.balance + 1);
         appStore.changeEnergy(-1);
     };
 
@@ -89,10 +100,20 @@ const HomeScreen = observer(function Home() {
             </div>
             <div className="hero-body p-0">
                 <div className="container has-text-centered p-2">
-                    <span className="icon is-main-screen" id="main-button" onClick={onClick}>
+                    <span className="icon is-main-screen" id="main-button" onMouseUp={onClick}>
                         <i className="fi fi-ss-paw"></i>
                     </span>
                 </div>
+                <div className="point" />
+                <div className="point" />
+                <div className="point" />
+                <div className="point" />
+                <div className="point" />
+                <div className="point" />
+                <div className="point" />
+                <div className="point" />
+                <div className="point" />
+                <div className="point" />
                 <ErrorNotification error={error} setError={setError} />
             </div>
             <div className="hero-foot">
