@@ -5,14 +5,18 @@ import TopScreen from './screens/TopScreen.jsx';
 import { useState } from 'react';
 import { useAppStore } from './stores/AppProvider.jsx';
 import { observer } from 'mobx-react-lite';
-import Squad from './components/Squad.jsx';
 import ShopScreen from './screens/ShopScreen.jsx';
+import TODOScreen from './screens/TODOScreen.jsx';
+import MiningScreen from './screens/MiningScreen';
+import TasksScreen from './screens/TasksScreen.jsx';
 
 const Screens = {
     LOADER: 'loader',
     HOME: 'home',
+    TASKS: 'tasks',
     TOP: 'top',
-    SQUAD: 'squad',
+    MINING: 'mining',
+    FRIENDS: 'friends',
     SHOP: 'shop',
 };
 
@@ -24,30 +28,35 @@ const getScreen = (screen) => {
             return <HomeScreen />;
         case Screens.TOP:
             return <TopScreen />;
-        case Screens.SQUAD:
-            return <Squad />;
+        case Screens.TASKS:
+            return <TasksScreen />;
+        case Screens.FRIENDS:
+            return <TODOScreen />;
         case Screens.SHOP:
             return <ShopScreen />;
+        case Screens.MINING:
+            return <MiningScreen />;
         default:
             return <></>;
     }
 };
 
-const App = observer(function Top() {
+const App = observer(function App() {
     const [activeScreen, setActiveScreen] = useState(Screens.HOME);
     const appStore = useAppStore();
 
-    console.log('APP', appStore.user);
-
     const ScreenButton = observer(function ScreenButton({ title, screen, icon }) {
         return (
-            <button className="button is-multiline is-fullwidth is-active" onClick={() => setActiveScreen(screen)}>
+            <button
+                className={'button is-multiline is-fullwidth' + (activeScreen === screen ? ' is-active' : '')}
+                onClick={() => setActiveScreen(screen)}
+            >
                 <span className="icon-text">
                     <span className="icon">
-                        <i className={`bx ${icon} bx-sm`}></i>
+                        <i className={`fi bx ${icon} bx-sm`}></i>
                     </span>
                 </span>
-                <span>{title}</span>
+                <span className="has-text-weight-light">{title}</span>
             </button>
         );
     });
@@ -58,20 +67,23 @@ const App = observer(function Top() {
 
     return (
         <>
-            <section className="hero is-fullheight">
+            <section className="hero is-fullheight is-main">
                 {getScreen(activeScreen)}
                 <div className="columns is-mobile has-text-centered is-gapless">
                     <div className="column is-mobile is-centered is-vcentered">
-                        <ScreenButton title={'Home'} screen={Screens.HOME} icon={'bx-home-alt-2'} />
+                        <ScreenButton title={'Mining'} screen={Screens.MINING} icon={'fi-ss-pickaxe'} />
                     </div>
                     <div className="column is-mobile is-centered is-vcentered">
-                        <ScreenButton title={'Shop'} screen={Screens.SHOP} icon={'bx-cart'} />
+                        <ScreenButton title={'Tasks'} screen={Screens.TASKS} icon={'fi-ss-note'} />
                     </div>
                     <div className="column is-mobile is-centered is-vcentered">
-                        <ScreenButton title={'Squad'} screen={Screens.SQUAD} icon={'bx-male-female'} />
+                        <ScreenButton title={'Home'} screen={Screens.HOME} icon={'fi-ss-paw'} />
                     </div>
                     <div className="column is-mobile is-centered is-vcentered">
-                        <ScreenButton title={'Top'} screen={Screens.TOP} icon={'bxs-balloon'} />
+                        <ScreenButton title={'Shop'} screen={Screens.SHOP} icon={'fi-ss-shopping-cart'} />
+                    </div>
+                    <div className="column is-mobile is-centered is-vcentered">
+                        <ScreenButton title={'Top'} screen={Screens.TOP} icon={'fi-ss-ranking-podium'} />
                     </div>
                 </div>
             </section>

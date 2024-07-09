@@ -19,3 +19,100 @@ html {
 .icon-text-time {
   font-feature-settings: "tnum";
 }
+
+.button-icon__right {
+  position: absolute;
+  right: 10px;
+}
+
+.h-60 {
+  height: 60px !important;
+}
+
+.button.is-main {
+  color: #FF7F00;
+  background: black;
+}
+
+.button.is-active {
+  color: #FF7F00;
+}
+
+.icon.is-main-screen {
+  font-size: 260px;
+  width: 260px;
+  height: 260px;
+}
+
+.is-ticket {
+  color: red;
+}
+
+.icon.is-energy {
+  color: #f5f55c;
+  font-size: 12px;
+}
+
+.container.is-energy {
+  margin-bottom: -8px;
+}
+
+
+.is-diamond {
+  color: #00ccff;
+}
+
+.kiss {
+  animation: kiss 200ms;
+}
+
+@keyframes kiss {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(0.95);
+  }
+}
+
+.icon.is-large {
+  font-size: 40px;
+}
+
+.icon.is-ready  {
+  animation: gradient 1000ms ease infinite alternate;
+}
+
+@keyframes gradient {
+  0% {
+    color: white;
+  }
+  100% {
+    color: green;
+  }
+}
+
+.icon.is-ready{animation:vibrate 0.2s linear both infinite} @keyframes vibrate{0%{transform:translate(0)}20%{transform:translate(-2px,2px)}40%{transform:translate(-2px,-2px)}60%{transform:translate(2px,2px)}80%{transform:translate(2px,-2px)}100%{transform:translate(0)}}
+
+.progress.experience {
+  height: 8px;
+  margin-top: 8px;
+  margin-left: -1px;
+  border-radius: 0;
+}
+
+.user-level {
+  width: 26px;
+  height: 26px;
+  border-radius: 26px;
+  text-align: center;
+  background: rgb(171, 177, 191);
+  color: black;
+  z-index: 1;
+}
+
+.box.is-tasks {
+  background: black;
+  height: calc(100vh - 42px - 48px - 62px);
+  overflow-y: auto;
+}

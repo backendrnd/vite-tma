@@ -1,4 +1,4 @@
-@import "../node_modules/bulma/css/bulma.min.css";
+@import "bulma.scss";
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -13,7 +13,8 @@ body {
 }
 
 .hero.is-main {
-  background-color: #111111;
+  background: rgb(20,22,26);
+  background: linear-gradient(180deg, rgba(20,22,26,1) 0%, rgba(32,34,38,1) 35%, rgba(17,16,15,1) 100%);
 }
 
 .title.is-main {

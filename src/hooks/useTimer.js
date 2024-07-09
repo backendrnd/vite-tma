@@ -8,7 +8,6 @@ export function useTimer(seconds) {
     useEffect(() => {
         if (seconds) {
             intervalRef.current = setInterval(() => {
-                console.log('HERE', seconds);
                 if (seconds > 0) {
                     forceUpdate();
                 }

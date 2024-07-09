@@ -26,7 +26,7 @@ function TopScreen() {
                 <tbody>
                     {users.map((user) => (
                         <tr key={user.id}>
-                            <th>{user.balance}</th>
+                            <td>{user.balance}</td>
                             <td>{user.username}</td>
                         </tr>
                     ))}

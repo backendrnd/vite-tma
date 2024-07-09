@@ -1,5 +1,5 @@
 import { ErrorNotification } from '../components/Notification.jsx';
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import api from '../api/Api.js';
 import { COIN_TOKEN } from '../constants/main.js';
 import { useAppStore } from '../stores/AppProvider.jsx';
@@ -168,10 +168,35 @@ function ShopScreen() {
         fetchData();
     }, []);
 
-    console.log('purchases', purchases);
-
     return (
         <div className="top">
+            <div className="hero hero-head">
+                <div className="container has-text-centered pt-2">
+                    <p className="title mb-1">
+                        {appStore.user.balance} {COIN_TOKEN}
+                    </p>
+                    <p>
+                        <span>0</span>
+                        <span className="icon is-small ml-1 is-ticket">
+                            <i className="fi fi-ss-ticket"></i>
+                        </span>
+                        <span className="ml-1">0</span>
+                        <span className="icon is-small ml-1 is-diamond">
+                            <i className="fi fi-ss-diamond"></i>
+                        </span>
+                    </p>
+                </div>
+            </div>
+            <div className="container has-text-centered p-2">
+                <button className="button is-main is-fullwidth h-60">
+                    Play a game
+                    <div className="button-icon__right">
+                        <span className="icon is-small ml-0 is-ticket">
+                            <i className="fi fi-ss-ticket"></i>
+                        </span>
+                    </div>
+                </button>
+            </div>
             {ITEMS.map((item, index) => (
                 <ShopItem key={index} item={item} purchases={purchases} onBuy={() => onBuyItem(item.id)} />
             ))}
@@ -212,7 +237,7 @@ const ShopItem = ({ item, purchases, onBuy }) => {
         priceText = (
             <>
                 {/* eslint-disable-next-line no-irregular-whitespace */}
-                {premiumPrice} <i className={`bx bxs-diamond`} />
+                {premiumPrice} <i className={`fi fi-ss-diamond`} />
             </>
         );
     }

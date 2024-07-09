@@ -22,7 +22,7 @@ function getTimeString(time) {
     );
 }
 
-const HomeScreen = observer(function Home() {
+const MiningScreen = observer(function MiningScreen() {
     const appStore = useAppStore();
     const [error, setError] = useState();
 
@@ -85,46 +85,28 @@ const HomeScreen = observer(function Home() {
                     <p className="title">
                         {appStore.user.balance} {COIN_TOKEN}
                     </p>
+                    <p className="subtitle">
+                        {seconds > 0 ? (
+                            <>
+                                Farming {farmingValue.toFixed(2)} {COIN_TOKEN}
+                            </>
+                        ) : (
+                            <>&nbsp;</>
+                        )}
+                    </p>
                 </div>
             </div>
             <div className="hero-body p-0">
-                <div className="container has-text-centered p-2">
-                    <span className="icon is-main-screen" id="main-button" onClick={onClick}>
-                        <i className="fi fi-ss-paw"></i>
-                    </span>
-                </div>
                 <ErrorNotification error={error} setError={setError} />
             </div>
             <div className="hero-foot">
-                <div className="columns is-mobile has-text-centered is-gapless is-vcentered p-2 mb-0">
-                    <div className="column has-text-left">
-                        <span
-                            className="icon is-large is-ready"
-                            onClick={() => {
-                                appStore.energy = 2000;
-                            }}
-                        >
-                            <i className="fi fi-ss-battery-full"></i>
-                        </span>
-                    </div>
-                    <div className="column"></div>
-                    <div className="column has-text-right">
-                        <span className="icon is-large">
-                            <i className="fi fi-ss-rocket-lunch"></i>
-                        </span>
-                    </div>
-                </div>
-                <div className="container has-text-right pr-2 is-energy">
-                    <span className="icon is-small is-energy mr-1">
-                        <i className="fi fi-ss-bolt"></i>
-                    </span>
-                    {appStore.energy} / 2000
-                </div>
-                <div className="container is-flex pt-0 pl-2 pr-2 pb-2">
-                    <span className="user-level">39</span>
-                    <progress className="progress mb-0 experience" value={appStore.user.balance} max="1000">
-                        15%
-                    </progress>
+                <div className="container has-text-centered p-2">
+                    <ActionButton
+                        task={task}
+                        seconds={seconds}
+                        onStartFarming={onStartFarming}
+                        onClaimTask={onClaimTask}
+                    />
                 </div>
             </div>
         </>
@@ -161,4 +143,4 @@ const ActionButton = observer(function ActionButton({ task, seconds, onStartFarm
     }
 });
 
-export default HomeScreen;
+export default MiningScreen;

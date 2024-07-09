@@ -27,12 +27,6 @@ const LoaderScreen = observer(function Loader() {
 
     return (
         <section className="hero is-fullheight">
-            <div className="hero hero-head is-main">
-                <div className="container p-4">
-                    <p className="title is-main">Lapka Game</p>
-                    <p className="subtitle">&nbsp;</p>
-                </div>
-            </div>
             <div className="hero-body">
                 <div className="container has-text-centered">
                     {error ? (
