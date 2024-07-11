@@ -4,25 +4,26 @@ export class AppStore {
     user = /** @type {User} */ undefined;
     tasks = /** @type {Task[]} */ undefined;
     energy = /** @type {Number} */ undefined;
+    experience = /** @type {Number} */ undefined;
 
     constructor() {
         makeAutoObservable(this);
-        this.energy = 2000;
     }
 
     setUser(user) {
         this.user = user;
+        this.experience = user.experience || 0;
+        this.energy = user.energy || 1000;
+        console.log('this.experience', this.experience);
     }
 
     setTasks(tasks) {
         this.tasks = tasks;
     }
 
-    changeEnergy(amount) {
-        this.energy = this.energy + amount;
-    }
-
-    setBalance(balance) {
-        this.user.balance = balance;
+    processTap(value) {
+        this.energy = this.energy - value;
+        this.user.balance = this.user.balance + value;
+        this.experience = this.experience + value;
     }
 }

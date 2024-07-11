@@ -6,9 +6,9 @@ import { useState } from 'react';
 import { useAppStore } from './stores/AppProvider.jsx';
 import { observer } from 'mobx-react-lite';
 import ShopScreen from './screens/ShopScreen.jsx';
-import TODOScreen from './screens/TODOScreen.jsx';
 import FarmingScreen from './screens/FarmingScreen.jsx';
 import TasksScreen from './screens/TasksScreen.jsx';
+import FriendsScreen from './screens/FriendsScreen.jsx';
 
 const Screens = {
     LOADER: 'loader',
@@ -31,7 +31,7 @@ const getScreen = (screen) => {
         case Screens.TASKS:
             return <TasksScreen />;
         case Screens.FRIENDS:
-            return <TODOScreen />;
+            return <FriendsScreen />;
         case Screens.SHOP:
             return <ShopScreen />;
         case Screens.FARMING:

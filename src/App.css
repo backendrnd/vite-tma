@@ -85,6 +85,10 @@ html {
   animation: gradient 1000ms ease infinite alternate;
 }
 
+.icon.is-active  {
+  animation: gradient 500ms ease infinite alternate;
+}
+
 @keyframes gradient {
   0% {
     color: white;
@@ -160,4 +164,14 @@ li.is-disabled > a {
 .fade-out {
   opacity: 0;
   transition: visibility 0s 2s, opacity 2s linear;
+}
+
+.content ul.is-unstyled {
+  list-style: none;
+  margin-left: 1em;
+  margin-top: 0;
+}
+
+.message.is-fullwidth {
+  width: 100%;
 }

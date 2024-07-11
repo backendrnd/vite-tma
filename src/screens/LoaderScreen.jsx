@@ -9,12 +9,14 @@ const LoaderScreen = observer(function Loader() {
     const [error, setError] = useState();
 
     useEffect(() => {
-        async function fetchData() {
+        async function init() {
             try {
                 const userId = WebApp?.initDataUnsafe?.user?.id || 2;
                 const userName = WebApp?.initDataUnsafe?.user?.first_name || 'Test';
+                let startParam = WebApp?.initDataUnsafe?.start_param || '';
                 api.userId = userId;
                 // appStore.setUser(await api.getUser());
+                await document.fonts.load('260px uicons-solid-straight');
                 appStore.setUser(await api.auth(api.userId, userName));
                 appStore.setTasks(await api.getTasks());
             } catch (e) {
@@ -22,7 +24,7 @@ const LoaderScreen = observer(function Loader() {
             }
         }
         // noinspection JSIgnoredPromiseFromCall
-        fetchData();
+        init();
     }, [appStore]);
 
     return (

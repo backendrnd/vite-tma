@@ -60,24 +60,6 @@ const FarmingScreen = observer(function FarmingScreen() {
         }
     };
 
-    const onClick = () => {
-        const degRandom = Math.floor(Math.random() * 20) - 10;
-        const newspaperSpinning = [
-            { transform: 'rotate(0) scale(1)' },
-            { transform: `rotate(${degRandom}deg) scale(0.95)` },
-        ];
-
-        const newspaperTiming = {
-            duration: 150,
-            iterations: 1,
-        };
-
-        const newspaper = document.getElementById('main-button');
-        newspaper.animate(newspaperSpinning, newspaperTiming);
-        appStore.user.balance = appStore.user.balance + 1;
-        appStore.changeEnergy(-1);
-    };
-
     return (
         <>
             <div className="hero hero-head">

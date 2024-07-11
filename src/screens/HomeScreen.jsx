@@ -3,18 +3,34 @@ import { observer } from 'mobx-react-lite';
 import { useAppStore } from '../stores/AppProvider.jsx';
 import { ErrorNotification } from '../components/Notification.jsx';
 import { COIN_TOKEN } from '../constants/main.js';
+import { getLevelByExperience } from '../helpers/ExperienceHelper.js';
+import { EXPERIENCE_TABLE, MAX_LEVEL } from '../constants/experience-table.js';
+
+const getMaxEnergy = (level) => {
+    return level * 500;
+};
 
 const HomeScreen = observer(function Home() {
     const appStore = useAppStore();
     const [error, setError] = useState();
     const clicksRef = useRef(0);
     const isTouchRef = useRef(false);
+    const [boostEndTime, setBoostEndTime] = useState(0);
+
+    const level = getLevelByExperience(appStore.experience);
+    const experienceProgress = appStore.experience - EXPERIENCE_TABLE[level - 1];
+    const experienceToLevelUp = level < MAX_LEVEL ? EXPERIENCE_TABLE[level] - EXPERIENCE_TABLE[level - 1] : 0;
+    const maxEnergy = getMaxEnergy(level);
+    const isBoostActive = boostEndTime - Date.now() > 0;
 
     const onClick = (x, y) => {
+        const boostMulti = 3;
+        const value = 1 * (isBoostActive ? boostMulti : 1);
+
         clicksRef.current++;
         const el = document.createElement('div');
         el.className = 'point fade-out';
-        el.innerText = '+1';
+        el.innerText = `+${value}`;
         el.style.left = `${x - 20}px`;
         el.style.top = `${y - 20}px`;
         document.getElementsByClassName('point')[clicksRef.current % 10].replaceWith(el);
@@ -32,8 +48,7 @@ const HomeScreen = observer(function Home() {
 
         const newspaper = document.getElementById('main-button');
         newspaper.animate(newspaperSpinning, newspaperTiming);
-        appStore.setBalance(appStore.user.balance + 1);
-        appStore.changeEnergy(-1);
+        appStore.processTap(value);
     };
 
     const onTouchStart = (e) => {
@@ -51,6 +66,14 @@ const HomeScreen = observer(function Home() {
         if (!isTouchRef.current) {
             onClick(e.clientX, e.clientY);
         }
+    };
+
+    const onBoostClick = () => {
+        const duration = 1000 * 5;
+        setBoostEndTime(Date.now() + duration);
+        setTimeout(() => {
+            setBoostEndTime(0);
+        }, duration);
     };
 
     return (
@@ -90,9 +113,9 @@ const HomeScreen = observer(function Home() {
                 <div className="columns is-mobile has-text-centered is-gapless is-vcentered p-2 mb-0">
                     <div className="column has-text-left">
                         <span
-                            className="icon is-large is-ready"
+                            className="icon is-large"
                             onClick={() => {
-                                appStore.energy = 2000;
+                                appStore.energy = maxEnergy;
                             }}
                         >
                             <i className="fi fi-ss-battery-full"></i>
@@ -100,7 +123,7 @@ const HomeScreen = observer(function Home() {
                     </div>
                     <div className="column"></div>
                     <div className="column has-text-right">
-                        <span className="icon is-large">
+                        <span className={'icon is-large' + (isBoostActive ? ' is-active' : '')} onClick={onBoostClick}>
                             <i className="fi fi-ss-rocket-lunch"></i>
                         </span>
                     </div>
@@ -109,12 +132,12 @@ const HomeScreen = observer(function Home() {
                     <span className="icon is-small is-energy mr-1">
                         <i className="fi fi-ss-bolt"></i>
                     </span>
-                    {appStore.energy} / 2000
+                    {appStore.energy} / {maxEnergy}
                 </div>
                 <div className="container is-flex pt-0 pl-2 pr-2 pb-2">
-                    <span className="user-level">39</span>
-                    <progress className="progress mb-0 experience" value={appStore.user.balance} max="1000">
-                        15%
+                    <span className="user-level">{level}</span>
+                    <progress className="progress mb-0 experience" value={experienceProgress} max={experienceToLevelUp}>
+                        0%
                     </progress>
                 </div>
             </div>
