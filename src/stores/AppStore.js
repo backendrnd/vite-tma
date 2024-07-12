@@ -5,6 +5,7 @@ export class AppStore {
     tasks = /** @type {Task[]} */ undefined;
     energy = /** @type {Number} */ undefined;
     experience = /** @type {Number} */ undefined;
+    friends = undefined;
 
     constructor() {
         makeAutoObservable(this);

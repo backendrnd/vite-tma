@@ -1,5 +1,5 @@
-// const BACKEND_ENDPOINT = 'http://127.0.0.1:3000';
-const BACKEND_ENDPOINT = 'https://api.1518.tech';
+const BACKEND_ENDPOINT = 'http://127.0.0.1:3000';
+// const BACKEND_ENDPOINT = 'https://api.1518.tech';
 
 /**
  * @typedef {Object} User
@@ -86,10 +86,11 @@ class Api {
      * Авторизует пользователя по ID
      * @returns {Promise<User>}
      */
-    async auth(id, username) {
+    async auth(id, username, inviteByUserId) {
         const data = {
             id: id,
             username: username,
+            ...(inviteByUserId ? { inviteByUserId: inviteByUserId } : {}),
         };
         const params = {
             method: 'POST',
@@ -110,6 +111,10 @@ class Api {
      */
     async buyItem(userId, itemId) {
         return await _fetch(`${BACKEND_ENDPOINT}/users/${userId}/items/${itemId}`, { method: 'POST' });
+    }
+
+    async getFriends(userId = this.userId) {
+        return await _fetch(`${BACKEND_ENDPOINT}/friends/${userId}`);
     }
 }
 

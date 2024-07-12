@@ -48,7 +48,7 @@ const App = observer(function App() {
     const ScreenButton = observer(function ScreenButton({ title, screen, icon }) {
         return (
             <button
-                className={'button is-multiline is-fullwidth' + (activeScreen === screen ? ' is-active' : '')}
+                className={'button is-multiline is-fullwidth pr-2 pl-2' + (activeScreen === screen ? ' is-active' : '')}
                 onClick={() => setActiveScreen(screen)}
             >
                 <span className="icon-text">
@@ -73,9 +73,11 @@ const App = observer(function App() {
                     <div className="column is-mobile is-centered is-vcentered">
                         <ScreenButton title={'Farming'} screen={Screens.FARMING} icon={'fi-ss-ram'} />
                     </div>
+                    {/**
                     <div className="column is-mobile is-centered is-vcentered">
                         <ScreenButton title={'Tasks'} screen={Screens.TASKS} icon={'fi-ss-note'} />
                     </div>
+                    **/}
                     <div className="column is-mobile is-centered is-vcentered">
                         <ScreenButton title={'Home'} screen={Screens.HOME} icon={'fi-ss-paw'} />
                     </div>

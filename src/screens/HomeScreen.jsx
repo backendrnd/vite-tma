@@ -94,7 +94,7 @@ const HomeScreen = observer(function Home() {
                         onMouseDown={onMouseDown}
                         onTouchEnd={onTouchEnd}
                     >
-                        <i className="fi fi-ss-paw"></i>
+                        <i className={`fi ${isBoostActive ? 'fi-ss-paw-claws' : 'fi-ss-paw'}`}></i>
                     </span>
                 </div>
                 <div className="point" />
@@ -118,13 +118,13 @@ const HomeScreen = observer(function Home() {
                                 appStore.energy = maxEnergy;
                             }}
                         >
-                            <i className="fi fi-ss-battery-full"></i>
+                            <i className="fi fi-ss-fish"></i>
                         </span>
                     </div>
                     <div className="column"></div>
                     <div className="column has-text-right">
                         <span className={'icon is-large' + (isBoostActive ? ' is-active' : '')} onClick={onBoostClick}>
-                            <i className="fi fi-ss-rocket-lunch"></i>
+                            <i className="fi fi-ss-lion-head"></i>
                         </span>
                     </div>
                 </div>

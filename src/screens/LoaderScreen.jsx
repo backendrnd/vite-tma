@@ -13,11 +13,12 @@ const LoaderScreen = observer(function Loader() {
             try {
                 const userId = WebApp?.initDataUnsafe?.user?.id || 2;
                 const userName = WebApp?.initDataUnsafe?.user?.first_name || 'Test';
-                let startParam = WebApp?.initDataUnsafe?.start_param || '';
+                const startParam = WebApp?.initDataUnsafe?.start_param || '';
+                const inviteByUserId = startParam.startsWith('f') ? startParam.slice(1) : undefined;
                 api.userId = userId;
                 // appStore.setUser(await api.getUser());
                 await document.fonts.load('260px uicons-solid-straight');
-                appStore.setUser(await api.auth(api.userId, userName));
+                appStore.setUser(await api.auth(api.userId, userName, inviteByUserId));
                 appStore.setTasks(await api.getTasks());
             } catch (e) {
                 setError(e.message);
