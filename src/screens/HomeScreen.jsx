@@ -69,6 +69,12 @@ const HomeScreen = observer(function Home() {
     };
 
     const onBoostClick = () => {
+        const el = document.createElement('div');
+        el.className = 'point effect fade-out';
+        el.innerText = `Beast Mode!`;
+        el.style.left = `0px`;
+        el.style.top = `${window.innerHeight / 2}px`;
+        document.getElementsByClassName('point')[10].replaceWith(el);
         const duration = 1000 * 5;
         setBoostEndTime(Date.now() + duration);
         setTimeout(() => {
@@ -107,25 +113,36 @@ const HomeScreen = observer(function Home() {
                 <div className="point" />
                 <div className="point" />
                 <div className="point" />
+                <div className="point" />
                 <ErrorNotification error={error} setError={setError} />
             </div>
             <div className="hero-foot">
                 <div className="columns is-mobile has-text-centered is-gapless is-vcentered p-2 mb-0">
                     <div className="column has-text-left">
-                        <span
-                            className="icon is-large"
-                            onClick={() => {
-                                appStore.energy = maxEnergy;
-                            }}
-                        >
-                            <i className="fi fi-ss-fish"></i>
-                        </span>
+                        <button className="button is-boost">
+                            <span
+                                className="icon is-large"
+                                onClick={() => {
+                                    appStore.energy = maxEnergy;
+                                }}
+                            >
+                                <i className="fi fi-ss-fish"></i>
+                            </span>
+                        </button>
                     </div>
                     <div className="column"></div>
                     <div className="column has-text-right">
-                        <span className={'icon is-large' + (isBoostActive ? ' is-active' : '')} onClick={onBoostClick}>
-                            <i className="fi fi-ss-lion-head"></i>
-                        </span>
+                        <button
+                            className={'button is-boost' + (isBoostActive ? ' is-active' : '')}
+                            disabled={isBoostActive}
+                        >
+                            <span
+                                className={'icon is-large' + (isBoostActive ? ' is-active' : '')}
+                                onClick={onBoostClick}
+                            >
+                                <i className="fi fi-ss-lion-head"></i>
+                            </span>
+                        </button>
                     </div>
                 </div>
                 <div className="container has-text-right pr-2 is-energy">

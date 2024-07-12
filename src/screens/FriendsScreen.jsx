@@ -5,7 +5,6 @@ import { copyToClipboard } from '../helpers/ClipboardHelper.js';
 import api from '../api/Api.js';
 import WebApp from '@twa-dev/sdk';
 import { useAppStore } from '../stores/AppProvider.jsx';
-import { COIN_TOKEN } from '../constants/main.js';
 
 const FriendsScreen = observer(function FriendsScreen() {
     const [error, setError] = useState();
@@ -14,7 +13,7 @@ const FriendsScreen = observer(function FriendsScreen() {
     useEffect(() => {
         async function init() {
             try {
-                 appStore.friends = await api.getFriends();
+                appStore.friends = await api.getFriends();
             } catch (e) {
                 setError(e.message);
             }
@@ -45,12 +44,13 @@ const FriendsScreen = observer(function FriendsScreen() {
                     <div className="message-header">
                         <p>Rewards</p>
                     </div>
-                    <div className="message-body content pl-0">
+                    <div className="message-body content pl-0 pr-0">
                         <ul className="is-unstyled">
                             <li>10% of your friends</li>
-                            <li>10% from their referrals </li>
-                            <li>10% of their purchases</li>
                         </ul>
+                        <button className="button is-primary is-fullwidth is-warning" disabled={true}>
+                            No rewards to claim
+                        </button>
                     </div>
                 </div>
                 <div className="message is-fullwidth pl-4 pr-4 pt-0 pb-2 is-flex-grow-1 is-flex is-flex-direction-column is-clipped">
