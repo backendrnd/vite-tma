@@ -35,8 +35,6 @@ const FriendsScreen = observer(function FriendsScreen() {
         copyToClipboard(inviteLink);
     };
 
-    console.log('appStore.friends', appStore.friends);
-
     return (
         <>
             <div className="hero-body p-0 is-flex-direction-column is-fullheight-withbutton">
@@ -100,7 +98,6 @@ const FriendsList = ({ friends }) => {
     if (friends.length === 0) {
         return "You haven't invited anyone yet";
     }
-    console.log('friends', friends);
 
     return (
         <table className="table is-fullwidth">
@@ -114,15 +111,6 @@ const FriendsList = ({ friends }) => {
             </tbody>
         </table>
     );
-
-    /*
-    friends.map((user) => (
-        <tr key={user.id}>
-            <td>{user.balance}</td>
-            <td>{user.username}</td>
-        </tr>
-    ));
-     */
 };
 
 export default FriendsScreen;

@@ -1,4 +1,5 @@
 import { makeAutoObservable } from 'mobx';
+import { getLevelByExperience, getMaxEnergy } from '../helpers/ExperienceHelper.js';
 
 export class AppStore {
     user = /** @type {User} */ undefined;
@@ -11,11 +12,14 @@ export class AppStore {
         makeAutoObservable(this);
     }
 
+    /**
+     * @param {User} user
+     */
     setUser(user) {
         this.user = user;
         this.experience = user.experience || 0;
-        this.energy = user.energy || 1000;
-        console.log('this.experience', this.experience);
+        const level = getLevelByExperience(this.experience);
+        this.energy = getMaxEnergy(level);
     }
 
     setTasks(tasks) {
@@ -23,8 +27,10 @@ export class AppStore {
     }
 
     processTap(value) {
-        this.energy = this.energy - value;
-        this.user.balance = this.user.balance + value;
-        this.experience = this.experience + value;
+        const tapValue = Math.min(value, this.energy);
+        this.energy = this.energy - tapValue;
+        this.user.balance = this.user.balance + tapValue;
+        this.experience = this.experience + tapValue;
+        return tapValue;
     }
 }

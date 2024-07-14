@@ -3,12 +3,8 @@ import { observer } from 'mobx-react-lite';
 import { useAppStore } from '../stores/AppProvider.jsx';
 import { ErrorNotification } from '../components/Notification.jsx';
 import { COIN_TOKEN } from '../constants/main.js';
-import { getLevelByExperience } from '../helpers/ExperienceHelper.js';
+import { getLevelByExperience, getMaxEnergy } from '../helpers/ExperienceHelper.js';
 import { EXPERIENCE_TABLE, MAX_LEVEL } from '../constants/experience-table.js';
-
-const getMaxEnergy = (level) => {
-    return level * 500;
-};
 
 const HomeScreen = observer(function Home() {
     const appStore = useAppStore();
@@ -26,29 +22,30 @@ const HomeScreen = observer(function Home() {
     const onClick = (x, y) => {
         const boostMulti = 3;
         const value = 1 * (isBoostActive ? boostMulti : 1);
+        const tapValue = appStore.processTap(value);
+        if (tapValue > 0) {
+            clicksRef.current++;
+            const el = document.createElement('div');
+            el.className = 'point fade-out';
+            el.innerText = `+${tapValue}`;
+            el.style.left = `${x - 20}px`;
+            el.style.top = `${y - 20}px`;
+            document.getElementsByClassName('point')[clicksRef.current % 10].replaceWith(el);
 
-        clicksRef.current++;
-        const el = document.createElement('div');
-        el.className = 'point fade-out';
-        el.innerText = `+${value}`;
-        el.style.left = `${x - 20}px`;
-        el.style.top = `${y - 20}px`;
-        document.getElementsByClassName('point')[clicksRef.current % 10].replaceWith(el);
+            const degRandom = Math.floor(Math.random() * 20) - 10;
+            const newspaperSpinning = [
+                { transform: 'rotate(0) scale(1)' },
+                { transform: `rotate(${degRandom}deg) scale(0.95)` },
+            ];
 
-        const degRandom = Math.floor(Math.random() * 20) - 10;
-        const newspaperSpinning = [
-            { transform: 'rotate(0) scale(1)' },
-            { transform: `rotate(${degRandom}deg) scale(0.95)` },
-        ];
+            const newspaperTiming = {
+                duration: 150,
+                iterations: 1,
+            };
 
-        const newspaperTiming = {
-            duration: 150,
-            iterations: 1,
-        };
-
-        const newspaper = document.getElementById('main-button');
-        newspaper.animate(newspaperSpinning, newspaperTiming);
-        appStore.processTap(value);
+            const newspaper = document.getElementById('main-button');
+            newspaper.animate(newspaperSpinning, newspaperTiming);
+        }
     };
 
     const onTouchStart = (e) => {

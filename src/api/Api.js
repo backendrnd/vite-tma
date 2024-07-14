@@ -84,6 +84,9 @@ class Api {
     /**
      * Авторизует пользователя по ID
      * @returns {Promise<User>}
+     * @param {Number} id
+     * @param {string} username
+     * @param {?Number} inviteByUserId
      */
     async auth(id, username, inviteByUserId) {
         const data = {

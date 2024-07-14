@@ -14,10 +14,7 @@ const LoaderScreen = observer(function Loader() {
                 const userId = WebApp?.initDataUnsafe?.user?.id || 2;
                 const userName = WebApp?.initDataUnsafe?.user?.first_name || 'Test';
                 const startParam = WebApp?.initDataUnsafe?.start_param || '';
-                const inviteByUserId = startParam.startsWith('f') ? startParam.slice(1) : undefined;
-                console.log('WebApp?.initDataUnsafe', WebApp?.initDataUnsafe);
-                console.log('inviteByUserId', inviteByUserId);
-                console.log('GET', new URLSearchParams(window.location.search).get('tgWebAppStartParam'));
+                const inviteByUserId = startParam.startsWith('f') ? Number(startParam.slice(1)) : undefined;
                 api.userId = userId;
                 // appStore.setUser(await api.getUser());
                 await document.fonts.load('260px uicons-solid-straight');

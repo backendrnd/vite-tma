@@ -8,3 +8,7 @@ export const getLevelByExperience = (experience) => {
     }
     return MAX_LEVEL;
 };
+
+export const getMaxEnergy = (level) => {
+    return level * 500;
+};
