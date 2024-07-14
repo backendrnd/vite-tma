@@ -86,13 +86,13 @@ class Api {
      * @returns {Promise<User>}
      * @param {Number} id
      * @param {string} username
-     * @param {?Number} inviteByUserId
+     * @param {?Number} invitedByUserId
      */
-    async auth(id, username, inviteByUserId) {
+    async auth(id, username, invitedByUserId) {
         const data = {
             id: id,
             username: username,
-            ...(inviteByUserId ? { inviteByUserId: inviteByUserId } : {}),
+            ...(invitedByUserId ? { invitedByUserId: invitedByUserId } : {}),
         };
         const params = {
             method: 'POST',
