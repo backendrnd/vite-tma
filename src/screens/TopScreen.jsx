@@ -26,7 +26,7 @@ function TopScreen() {
                 <tbody>
                     {users.map((user) => (
                         <tr key={user.id}>
-                            <td>{user.balance}</td>
+                            <td>{user.balance.toLocaleString()}</td>
                             <td>{user.username}</td>
                         </tr>
                     ))}

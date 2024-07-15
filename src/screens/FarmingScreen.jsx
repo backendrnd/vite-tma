@@ -3,9 +3,11 @@ import { observer } from 'mobx-react-lite';
 import { useAppStore } from '../stores/AppProvider.jsx';
 import api from '../api/Api.js';
 import { ErrorNotification } from '../components/Notification.jsx';
-import { COIN_TOKEN } from '../constants/main.js';
+import { COIN_TOKEN, Screens } from '../constants/main.js';
 import { useTimer } from '../hooks/useTimer.js';
 import { useSync } from '../hooks/useSync.js';
+import { getLevelByExperience } from '../helpers/ExperienceHelper.js';
+import { EXPERIENCE_TABLE } from '../constants/experience-table.js';
 
 function getTimeString(time) {
     if (time === undefined) {
@@ -23,9 +25,10 @@ function getTimeString(time) {
     );
 }
 
-const FarmingScreen = observer(function FarmingScreen() {
+const FarmingScreen = observer(function FarmingScreen({ setActiveScreen }) {
     const appStore = useAppStore();
     const { forceSync } = useSync();
+    const level = getLevelByExperience(appStore.experience);
 
     const [error, setError] = useState();
     const task = appStore.tasks[0];
@@ -58,14 +61,47 @@ const FarmingScreen = observer(function FarmingScreen() {
         <>
             <div className="hero hero-head">
                 <div className="container has-text-centered pt-2">
-                    <p className="title">
-                        {appStore.balance} {COIN_TOKEN}
-                    </p>
+                    <button
+                        className="button is-fullwidth is-flex-direction-column is-user"
+                        onClick={() => {
+                            setActiveScreen(Screens.TOP);
+                        }}
+                    >
+                        <p className="title">
+                            {appStore.balance.toLocaleString()} {COIN_TOKEN}
+                        </p>
+                        <p className="subtitle is-user mb-0">
+                            {level} lvl, {appStore.experience} / {EXPERIENCE_TABLE[level]} Exp
+                        </p>
+                        <div className="button-icon__right">
+                            <span className="icon mr-2">
+                                <i className="fi fi-ss-ranking-podium"></i>
+                            </span>
+                        </div>
+                    </button>
                 </div>
             </div>
             <div className="hero-body is-flex-direction-column p-0">
                 <div className="container has-text-centered p-2">
-                    <MiningButton task={task} onStartFarming={onStartFarming} onClaimTask={onClaimTask} />
+                    <div className="block pt-4 mb-0">
+                        <MiningButton task={task} onStartFarming={onStartFarming} onClaimTask={onClaimTask} />
+                    </div>
+                    <div className="block pt-4">
+                        <button className="button is-game is-fullwidth h-80" disabled={true}>
+                            <div>Get 0 or 200 {COIN_TOKEN}</div>
+                            <div className="icon-text icon-text-time">
+                                <span className="icon is-small mr-1">
+                                    <i className="fi fi-ss-basket-shopping-simple" />
+                                </span>
+                                100 LPK
+                            </div>
+                            <div className="button-icon__left">
+                                <span className="icon ml-0">
+                                    <i className="fi fi-ss-coin"></i>
+                                </span>
+                            </div>
+                        </button>
+                    </div>
                 </div>
                 <ErrorNotification error={error} setError={setError} />
             </div>

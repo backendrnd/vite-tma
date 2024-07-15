@@ -105,7 +105,7 @@ const FriendsList = ({ friends }) => {
                 {friends.map((user) => (
                     <tr key={user.id}>
                         <td>{user.username}</td>
-                        <td>{user.balance}</td>
+                        <td>{user.balance.toLocaleString()}</td>
                     </tr>
                 ))}
             </tbody>

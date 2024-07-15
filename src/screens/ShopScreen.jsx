@@ -176,7 +176,7 @@ function ShopScreen() {
             <div className="hero hero-head">
                 <div className="container has-text-centered pt-2">
                     <p className="title mb-1">
-                        {appStore.balance} {COIN_TOKEN}
+                        {appStore.balance.toLocaleString()} {COIN_TOKEN}
                     </p>
                 </div>
             </div>

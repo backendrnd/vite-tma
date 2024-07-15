@@ -242,3 +242,13 @@ li.is-disabled > a {
 .button.is-boost.is-synced {
   opacity: 1; /* TODO: add delay opacity */
 }
+
+.subtitle.is-user {
+  font-size: 16px;
+}
+
+.button.is-user {
+  background: transparent;
+  border: none;
+  padding: 0;
+}

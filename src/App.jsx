@@ -10,18 +10,9 @@ import FarmingScreen from './screens/FarmingScreen.jsx';
 import TasksScreen from './screens/TasksScreen.jsx';
 import FriendsScreen from './screens/FriendsScreen.jsx';
 import api from './api/Api.js';
+import { Screens } from './constants/main.js';
 
-const Screens = {
-    LOADER: 'loader',
-    HOME: 'home',
-    TASKS: 'tasks',
-    TOP: 'top',
-    FARMING: 'farming',
-    FRIENDS: 'friends',
-    SHOP: 'shop',
-};
-
-const getScreen = (screen) => {
+const getScreen = (screen, setActiveScreen) => {
     switch (screen) {
         case Screens.LOADER:
             return <LoaderScreen />;
@@ -36,7 +27,7 @@ const getScreen = (screen) => {
         case Screens.SHOP:
             return <ShopScreen />;
         case Screens.FARMING:
-            return <FarmingScreen />;
+            return <FarmingScreen setActiveScreen={setActiveScreen} />;
         default:
             return <></>;
     }
@@ -86,7 +77,7 @@ const App = observer(function App() {
     return (
         <>
             <section className="hero is-fullheight is-main">
-                {getScreen(activeScreen)}
+                {getScreen(activeScreen, setActiveScreen)}
                 <div className="columns is-mobile has-text-centered is-gapless">
                     <div className="column is-mobile is-centered is-vcentered">
                         <ScreenButton title={'Farming'} screen={Screens.FARMING} icon={'fi-ss-ram'} />
