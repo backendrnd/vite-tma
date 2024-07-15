@@ -4,7 +4,7 @@ import { useAppStore } from '../stores/AppProvider.jsx';
 export function useSync() {
     const appStore = useAppStore();
 
-    const checkAndSync = () => {
+    const checkAndSync = (setIsSyncing = true) => {
         const energy = appStore.energy;
         const experience = appStore.experience;
         const balance = appStore.balance;
@@ -13,10 +13,14 @@ export function useSync() {
             appStore.user.energy !== experience ||
             appStore.user.experience !== balance
         ) {
-            appStore.setIsSyncing(true);
+            if (setIsSyncing) {
+                appStore.setIsSyncing(true);
+            }
             api.sync(energy, experience, balance).then((user) => {
                 appStore.setSyncUser(user, energy, experience, balance);
-                appStore.setIsSyncing(false);
+                if (setIsSyncing) {
+                    appStore.setIsSyncing(false);
+                }
             });
         }
     };

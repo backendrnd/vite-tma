@@ -30,15 +30,6 @@ const FarmingScreen = observer(function FarmingScreen() {
     const [error, setError] = useState();
     const task = appStore.tasks[0];
 
-    const nowDate = new Date(); // TODO: add fixer
-    const taskEndDate = new Date(task?.end_date);
-    const taskStartDate = new Date(task?.start_date);
-
-    const seconds = useTimer((taskEndDate - nowDate) / 1000);
-    const totalSeconds = (taskEndDate - taskStartDate) / 1000;
-    const secondsElapsed = Math.min((nowDate - taskStartDate) / 1000, totalSeconds);
-    const farmingValue = Math.max(0, (task?.value * secondsElapsed) / totalSeconds);
-
     const onStartFarming = async () => {
         const task = await api.requestTask();
         if (task) {
@@ -70,67 +61,67 @@ const FarmingScreen = observer(function FarmingScreen() {
                     <p className="title">
                         {appStore.balance} {COIN_TOKEN}
                     </p>
-                    <p className="subtitle">
-                        {seconds > 0 ? (
-                            <>
-                                Farming {farmingValue.toFixed(2)} {COIN_TOKEN}
-                            </>
-                        ) : (
-                            <>&nbsp;</>
-                        )}
-                    </p>
                 </div>
             </div>
-            <div className="container has-text-centered p-2">
-                <button className="button is-main is-fullwidth h-60">
-                    Play a game
-                    <div className="button-icon__right">
-                        <span className="icon is-small ml-0 is-ticket">
-                            <i className="fi fi-ss-ticket"></i>
-                        </span>
-                    </div>
-                </button>
-            </div>
-            <div className="hero-body p-0">
-                <ErrorNotification error={error} setError={setError} />
-            </div>
-            <div className="hero-foot">
+            <div className="hero-body is-flex-direction-column p-0">
                 <div className="container has-text-centered p-2">
-                    <ActionButton
-                        task={task}
-                        seconds={seconds}
-                        onStartFarming={onStartFarming}
-                        onClaimTask={onClaimTask}
-                    />
+                    <MiningButton task={task} onStartFarming={onStartFarming} onClaimTask={onClaimTask} />
                 </div>
+                <ErrorNotification error={error} setError={setError} />
             </div>
         </>
     );
 });
 
-const ActionButton = observer(function ActionButton({ task, seconds, onStartFarming, onClaimTask }) {
+const MiningButton = observer(function ActionButton({ task, onStartFarming, onClaimTask }) {
+    const nowDate = new Date(); // TODO: add fixer
+    const taskEndDate = new Date(task?.end_date);
+    const taskStartDate = new Date(task?.start_date);
+    const seconds = useTimer((taskEndDate - nowDate) / 1000);
+    const totalSeconds = (taskEndDate - taskStartDate) / 1000;
+    const secondsElapsed = Math.min((nowDate - taskStartDate) / 1000, totalSeconds);
+    const farmingValue = Math.max(0, (task?.value * secondsElapsed) / totalSeconds);
+
     switch (true) {
         case task === undefined:
             return (
-                <button className="button is-primary is-fullwidth" onClick={onStartFarming}>
+                <button className="button is-game is-fullwidth h-80" onClick={onStartFarming}>
                     Start farming
+                    <div className="button-icon__left">
+                        <span className="icon ml-0">
+                            <i className="fi fi-ss-pickaxe"></i>
+                        </span>
+                    </div>
                 </button>
             );
         case seconds > 0:
             return (
-                <button className="button is-fullwidth" disabled={true}>
-                    <span className="icon-text icon-text-time">
-                        <span className="icon">
-                            <i className="bx bx-time"></i>
+                <button className="button is-game is-fullwidth h-80" disabled={true}>
+                    <div className="icon-text icon-text-time">
+                        {farmingValue.toFixed(2)} {COIN_TOKEN}
+                    </div>
+                    <div className="icon-text icon-text-time">
+                        <span className="icon is-small mr-1">
+                            <i className="fi fi-ss-clock" />
                         </span>
-                        &nbsp;{getTimeString(seconds)}
-                    </span>
+                        {getTimeString(seconds)}
+                    </div>
+                    <div className="button-icon__left">
+                        <span className="icon ml-0">
+                            <i className="fi fi-ss-pickaxe"></i>
+                        </span>
+                    </div>
                 </button>
             );
         case seconds <= 0:
             return (
-                <button className="button is-primary is-fullwidth is-warning" onClick={() => onClaimTask(task)}>
+                <button className="button is-game is-fullwidth h-80" onClick={() => onClaimTask(task)}>
                     Claim {task.value} {COIN_TOKEN}
+                    <div className="button-icon__left">
+                        <span className="icon ml-0">
+                            <i className="fi fi-ss-pickaxe"></i>
+                        </span>
+                    </div>
                 </button>
             );
         default:

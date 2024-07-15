@@ -178,16 +178,6 @@ function ShopScreen() {
                     <p className="title mb-1">
                         {appStore.balance} {COIN_TOKEN}
                     </p>
-                    <p>
-                        <span>0</span>
-                        <span className="icon is-small ml-1 is-ticket">
-                            <i className="fi fi-ss-ticket"></i>
-                        </span>
-                        <span className="ml-1">0</span>
-                        <span className="icon is-small ml-1 is-diamond">
-                            <i className="fi fi-ss-diamond"></i>
-                        </span>
-                    </p>
                 </div>
             </div>
             {ITEMS.map((item, index) => (

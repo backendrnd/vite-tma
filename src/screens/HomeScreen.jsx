@@ -5,7 +5,6 @@ import { ErrorNotification } from '../components/Notification.jsx';
 import { COIN_TOKEN } from '../constants/main.js';
 import { getLevelByExperience, getMaxEnergy } from '../helpers/ExperienceHelper.js';
 import { EXPERIENCE_TABLE, MAX_LEVEL } from '../constants/experience-table.js';
-import api from '../api/Api.js';
 import { useSync } from '../hooks/useSync.js';
 
 const HomeScreen = observer(function Home() {
@@ -22,44 +21,47 @@ const HomeScreen = observer(function Home() {
     const maxEnergy = getMaxEnergy(level);
     const isBoostActive = boostEndTime - Date.now() > 0;
 
+    const screenEffect = (x, y, title) => {
+        const el = document.createElement('div');
+        el.className = 'point fade-out';
+        el.innerText = title;
+        el.style.left = `${x - 20}px`;
+        el.style.top = `${y - 20}px`;
+        document.getElementsByClassName('point')[clicksRef.current % 10].replaceWith(el);
+    };
+
+    const screenTapEffect = (degree = 10) => {
+        const degRandom = Math.floor(Math.random() * degree) - degree / 2;
+        const newspaperSpinning = [
+            { transform: 'rotate(0) scale(1)' },
+            { transform: `rotate(${degRandom}deg) scale(0.95)` },
+        ];
+
+        const newspaperTiming = {
+            duration: 150,
+            iterations: 1,
+        };
+
+        const newspaper = document.getElementById('main-button');
+        newspaper.animate(newspaperSpinning, newspaperTiming);
+    };
+
     const onClick = (x, y) => {
         const boostMulti = 3;
         const value = 1 * (isBoostActive ? boostMulti : 1);
         const { tapValue, isLvlUp } = appStore.processTap(value);
+        clicksRef.current++;
         if (tapValue > 0) {
-            clicksRef.current++;
-            const el = document.createElement('div');
-            el.className = 'point fade-out';
-            el.innerText = `+${tapValue}`;
-            el.style.left = `${x - 20}px`;
-            el.style.top = `${y - 20}px`;
-            document.getElementsByClassName('point')[clicksRef.current % 10].replaceWith(el);
-
-            const degRandom = Math.floor(Math.random() * 20) - 10;
-            const newspaperSpinning = [
-                { transform: 'rotate(0) scale(1)' },
-                { transform: `rotate(${degRandom}deg) scale(0.95)` },
-            ];
-
-            const newspaperTiming = {
-                duration: 150,
-                iterations: 1,
-            };
-
-            const newspaper = document.getElementById('main-button');
-            newspaper.animate(newspaperSpinning, newspaperTiming);
-
+            screenEffect(x, y, `+${tapValue}`);
+            screenTapEffect();
             if (isLvlUp) {
-                bigEffect('Level Up!');
+                screenBigEffect('Level Up!');
             }
             if (clicksRef.current % 1000 === 0 || isLvlUp) {
-                const energy = appStore.energy;
-                const experience = appStore.experience;
-                const balance = appStore.balance;
-                api.sync(energy, experience, balance).then((user) => {
-                    appStore.setSyncUser(user, energy, experience, balance);
-                });
+                checkAndSync(false);
             }
+        } else {
+            screenTapEffect(0);
         }
     };
 
@@ -80,7 +82,7 @@ const HomeScreen = observer(function Home() {
         }
     };
 
-    const bigEffect = (title) => {
+    const screenBigEffect = (title) => {
         const el = document.createElement('div');
         el.className = 'point effect fade-out';
         el.innerText = title;
@@ -90,7 +92,7 @@ const HomeScreen = observer(function Home() {
     };
 
     const onBoostClick = () => {
-        bigEffect('Beast Mode!');
+        screenBigEffect('Beast Mode!');
         checkAndSync();
         const duration = 1000 * 5;
         setBoostEndTime(Date.now() + duration);

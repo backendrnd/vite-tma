@@ -29,8 +29,18 @@ html {
   right: 10px;
 }
 
+.button-icon__left {
+  position: absolute;
+  left: 10px;
+}
+
+
 .h-60 {
   height: 60px !important;
+}
+
+.h-80 {
+  height: 80px !important;
 }
 
 .button.is-main {
@@ -84,6 +94,26 @@ html {
 .icon.is-large {
   font-size: 48px;
 }
+
+.button.is-game {
+  flex-direction: column;
+}
+
+.button.is-game .icon {
+  font-size: 24px;
+  width: 24px;
+  height: 24px;
+  color: white;
+  margin-top: 6px;
+  font-feature-settings: "tnum";
+}
+
+.button.is-game .icon.is-small {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+}
+
 
 .icon.is-ready  {
   animation: gradient 1000ms ease infinite alternate;
