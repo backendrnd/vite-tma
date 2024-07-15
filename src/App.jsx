@@ -2,13 +2,14 @@ import './App.css';
 import LoaderScreen from './screens/LoaderScreen.jsx';
 import HomeScreen from './screens/HomeScreen.jsx';
 import TopScreen from './screens/TopScreen.jsx';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppStore } from './stores/AppProvider.jsx';
 import { observer } from 'mobx-react-lite';
 import ShopScreen from './screens/ShopScreen.jsx';
 import FarmingScreen from './screens/FarmingScreen.jsx';
 import TasksScreen from './screens/TasksScreen.jsx';
 import FriendsScreen from './screens/FriendsScreen.jsx';
+import api from './api/Api.js';
 
 const Screens = {
     LOADER: 'loader',
@@ -60,6 +61,23 @@ const App = observer(function App() {
             </button>
         );
     });
+
+    useEffect(() => {
+        const handleVisibilityChange = async () => {
+            if (
+                document.visibilityState === 'hidden' &&
+                (appStore.user.balance !== appStore.balance ||
+                    appStore.user.energy !== appStore.energy ||
+                    appStore.user.experience !== appStore.experience)
+            ) {
+                await api.sync(appStore.energy, appStore.experience, appStore.balance);
+            }
+        };
+        window.addEventListener('visibilitychange', handleVisibilityChange);
+        return () => {
+            window.removeEventListener('visibilitychange', handleVisibilityChange);
+        };
+    }, [appStore]);
 
     if (appStore.user === undefined || appStore.tasks === undefined) {
         return <LoaderScreen />;

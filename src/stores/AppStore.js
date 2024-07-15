@@ -4,9 +4,13 @@ import { getLevelByExperience, getMaxEnergy } from '../helpers/ExperienceHelper.
 export class AppStore {
     user = /** @type {User} */ undefined;
     tasks = /** @type {Task[]} */ undefined;
+    friends = undefined;
+    level = /** @type {Number} */ undefined;
+    // TEMP
     energy = /** @type {Number} */ undefined;
     experience = /** @type {Number} */ undefined;
-    friends = undefined;
+    balance = /** @type {Number} */ undefined;
+    isSyncing = /** @type {Boolean} */ false;
 
     constructor() {
         makeAutoObservable(this);
@@ -17,20 +21,48 @@ export class AppStore {
      */
     setUser(user) {
         this.user = user;
-        this.experience = user.experience || 0;
-        const level = getLevelByExperience(this.experience);
-        this.energy = getMaxEnergy(level);
+        this.experience = user.experience;
+        this.energy = user.energy;
+        this.balance = user.balance;
+        this.level = getLevelByExperience(this.experience);
+    }
+
+    /**
+     * @param {User} user
+     * @param energy
+     * @param experience
+     * @param balance
+     */
+    setSyncUser(user, energy, experience, balance) {
+        this.user = user;
+        this.experience = user.experience + (this.experience - experience);
+        this.energy = user.energy + (this.energy - energy);
+        this.balance = user.balance + (this.balance - balance);
+        this.level = getLevelByExperience(this.experience);
     }
 
     setTasks(tasks) {
         this.tasks = tasks;
     }
 
+    setIsSyncing(isSyncing) {
+        this.isSyncing = isSyncing;
+    }
+
     processTap(value) {
         const tapValue = Math.min(value, this.energy);
-        this.energy = this.energy - tapValue;
-        this.user.balance = this.user.balance + tapValue;
-        this.experience = this.experience + tapValue;
-        return tapValue;
+        let isLvlUp = false;
+        if (tapValue > 0) {
+            const currentLevel = this.level;
+            this.energy = this.energy - tapValue;
+            this.balance = this.balance + tapValue;
+            this.experience = this.experience + tapValue;
+            this.level = getLevelByExperience(this.experience);
+            if (currentLevel !== this.level) {
+                this.energy = getMaxEnergy(this.level);
+                isLvlUp = true;
+            }
+        }
+        return { tapValue, isLvlUp };
     }
 }

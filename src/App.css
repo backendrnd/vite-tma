@@ -208,3 +208,7 @@ li.is-disabled > a {
   height: 64px;
   padding-bottom: 0;
 }
+
+.button.is-boost.is-synced {
+  opacity: 1; /* TODO: add delay opacity */
+}

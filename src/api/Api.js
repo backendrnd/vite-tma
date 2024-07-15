@@ -1,11 +1,6 @@
-const BACKEND_ENDPOINT = import.meta.env.VITE_BACKEND_ENDPOINT || 'https://api.1518.tech';
+import { User } from '../models/User.js';
 
-/**
- * @typedef {Object} User
- * @property {number} id
- * @property {number} balance
- * @property {string} username
- */
+const BACKEND_ENDPOINT = import.meta.env.VITE_BACKEND_ENDPOINT || 'https://api.1518.tech';
 
 /**
  * @typedef {Object} Task
@@ -46,7 +41,8 @@ class Api {
      * @returns {Promise<User>}
      */
     async getUser(userId = this.userId) {
-        return _fetch(`${BACKEND_ENDPOINT}/users/${userId}`);
+        const result = await _fetch(`${BACKEND_ENDPOINT}/users/${userId}`);
+        return new User(result);
     }
 
     /**
@@ -101,7 +97,33 @@ class Api {
             },
             body: JSON.stringify(data),
         };
-        return await _fetch(`${BACKEND_ENDPOINT}/users/auth`, params);
+        const result = await _fetch(`${BACKEND_ENDPOINT}/users/auth`, params);
+        return new User(result);
+    }
+
+    /**
+     * Авторизует пользователя по ID
+     * @returns {Promise<User>}
+     * @param userId
+     * @param energy
+     * @param experience
+     * @param balance
+     */
+    async sync(energy, experience, balance, userId = this.userId) {
+        const data = {
+            energy,
+            experience,
+            balance,
+        };
+        const params = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        };
+        const result = await _fetch(`${BACKEND_ENDPOINT}/users/${userId}/sync`, params);
+        return new User(result);
     }
 
     async getItems(userId = this.userId) {

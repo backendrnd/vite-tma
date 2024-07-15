@@ -5,9 +5,12 @@ import { ErrorNotification } from '../components/Notification.jsx';
 import { COIN_TOKEN } from '../constants/main.js';
 import { getLevelByExperience, getMaxEnergy } from '../helpers/ExperienceHelper.js';
 import { EXPERIENCE_TABLE, MAX_LEVEL } from '../constants/experience-table.js';
+import api from '../api/Api.js';
+import { useSync } from '../hooks/useSync.js';
 
 const HomeScreen = observer(function Home() {
     const appStore = useAppStore();
+    const { checkAndSync } = useSync();
     const [error, setError] = useState();
     const clicksRef = useRef(0);
     const isTouchRef = useRef(false);
@@ -22,7 +25,7 @@ const HomeScreen = observer(function Home() {
     const onClick = (x, y) => {
         const boostMulti = 3;
         const value = 1 * (isBoostActive ? boostMulti : 1);
-        const tapValue = appStore.processTap(value);
+        const { tapValue, isLvlUp } = appStore.processTap(value);
         if (tapValue > 0) {
             clicksRef.current++;
             const el = document.createElement('div');
@@ -45,6 +48,18 @@ const HomeScreen = observer(function Home() {
 
             const newspaper = document.getElementById('main-button');
             newspaper.animate(newspaperSpinning, newspaperTiming);
+
+            if (isLvlUp) {
+                bigEffect('Level Up!');
+            }
+            if (clicksRef.current % 1000 === 0 || isLvlUp) {
+                const energy = appStore.energy;
+                const experience = appStore.experience;
+                const balance = appStore.balance;
+                api.sync(energy, experience, balance).then((user) => {
+                    appStore.setSyncUser(user, energy, experience, balance);
+                });
+            }
         }
     };
 
@@ -65,13 +80,18 @@ const HomeScreen = observer(function Home() {
         }
     };
 
-    const onBoostClick = () => {
+    const bigEffect = (title) => {
         const el = document.createElement('div');
         el.className = 'point effect fade-out';
-        el.innerText = `Beast Mode!`;
+        el.innerText = title;
         el.style.left = `0px`;
         el.style.top = `${window.innerHeight / 2}px`;
         document.getElementsByClassName('point')[10].replaceWith(el);
+    };
+
+    const onBoostClick = () => {
+        bigEffect('Beast Mode!');
+        checkAndSync();
         const duration = 1000 * 5;
         setBoostEndTime(Date.now() + duration);
         setTimeout(() => {
@@ -84,7 +104,7 @@ const HomeScreen = observer(function Home() {
             <div className="hero hero-head">
                 <div className="container has-text-centered pt-2">
                     <p className="title">
-                        {appStore.user.balance} {COIN_TOKEN}
+                        {appStore.balance} {COIN_TOKEN}
                     </p>
                 </div>
             </div>
@@ -116,7 +136,7 @@ const HomeScreen = observer(function Home() {
             <div className="hero-foot">
                 <div className="columns is-mobile has-text-centered is-gapless is-vcentered p-2 mb-0">
                     <div className="column has-text-left">
-                        <button className="button is-boost">
+                        <button className="button is-boost is-synced" disabled={appStore.isSyncing}>
                             <span
                                 className="icon is-large"
                                 onClick={() => {

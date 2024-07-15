@@ -5,6 +5,7 @@ import api from '../api/Api.js';
 import { ErrorNotification } from '../components/Notification.jsx';
 import { COIN_TOKEN } from '../constants/main.js';
 import { useTimer } from '../hooks/useTimer.js';
+import { useSync } from '../hooks/useSync.js';
 
 function getTimeString(time) {
     if (time === undefined) {
@@ -24,8 +25,9 @@ function getTimeString(time) {
 
 const FarmingScreen = observer(function FarmingScreen() {
     const appStore = useAppStore();
-    const [error, setError] = useState();
+    const { forceSync } = useSync();
 
+    const [error, setError] = useState();
     const task = appStore.tasks[0];
 
     const nowDate = new Date(); // TODO: add fixer
@@ -50,6 +52,7 @@ const FarmingScreen = observer(function FarmingScreen() {
      */
     const onClaimTask = async (task) => {
         try {
+            await forceSync();
             const taskClaimed = await api.claimTask(task.user_id, task.id);
             if (taskClaimed !== null) {
                 appStore.setUser(await api.getUser());
@@ -65,7 +68,7 @@ const FarmingScreen = observer(function FarmingScreen() {
             <div className="hero hero-head">
                 <div className="container has-text-centered pt-2">
                     <p className="title">
-                        {appStore.user.balance} {COIN_TOKEN}
+                        {appStore.balance} {COIN_TOKEN}
                     </p>
                     <p className="subtitle">
                         {seconds > 0 ? (

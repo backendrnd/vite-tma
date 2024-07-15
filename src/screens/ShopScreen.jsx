@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import api from '../api/Api.js';
 import { COIN_TOKEN } from '../constants/main.js';
 import { useAppStore } from '../stores/AppProvider.jsx';
+import { useSync } from '../hooks/useSync.js';
 
 const ITEMS_CODE = {
     VOLUME_1: 1,
@@ -146,10 +147,12 @@ const ITEMS = [
 function ShopScreen() {
     const [error, setError] = useState();
     const appStore = useAppStore();
+    const { forceSync } = useSync();
     const [purchases, setPurchases] = useState([]);
 
     const onBuyItem = async (itemId) => {
         try {
+            await forceSync();
             const item = await api.buyItem(api.userId, itemId);
             if (item !== null) {
                 appStore.setUser(await api.getUser());
@@ -173,7 +176,7 @@ function ShopScreen() {
             <div className="hero hero-head">
                 <div className="container has-text-centered pt-2">
                     <p className="title mb-1">
-                        {appStore.user.balance} {COIN_TOKEN}
+                        {appStore.balance} {COIN_TOKEN}
                     </p>
                     <p>
                         <span>0</span>
@@ -200,7 +203,7 @@ const ShopItem = ({ item, purchases, onBuy }) => {
     const appStore = useAppStore();
     const [tokenPrice, premiumPrice] = price;
     const isAvailable =
-        appStore.user.balance >= tokenPrice &&
+        appStore.balance >= tokenPrice &&
         0 >= premiumPrice &&
         (purchases[item.id] || 0) < (item.limit || Number.MAX_SAFE_INTEGER);
     if (
