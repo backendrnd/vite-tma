@@ -64,7 +64,7 @@ const App = observer(function App() {
                     appStore.user.experience !== appStore.experience)
             ) {
                 if (!api.beacon(appStore.energy, appStore.experience, appStore.balance)) {
-                    sessionStorage.setItem(
+                    localStorage.setItem(
                         '__lapka__user',
                         JSON.stringify({
                             energy: appStore.energy,

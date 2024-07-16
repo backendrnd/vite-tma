@@ -21,13 +21,13 @@ const LoaderScreen = observer(function Loader() {
                 // appStore.setUser(await api.getUser());
                 await document.fonts.load('260px uicons-solid-straight');
                 appStore.setUser(await api.auth(api.userId, userName, invitedByUserId));
-                const data = sessionStorage.getItem('__lapka__user');
+                const data = localStorage.getItem('__lapka__user');
                 if (data) {
                     const user = JSON.parse(data);
                     appStore.restoreBackup(user.energy, user.balance, user.experience);
                     await forceSync();
                     console.log('restoreBackup', user, appStore.balance);
-                    sessionStorage.removeItem('__lapka__user');
+                    localStorage.removeItem('__lapka__user');
                 }
                 appStore.setTasks(await api.getTasks());
             } catch (e) {
