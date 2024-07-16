@@ -54,14 +54,16 @@ const App = observer(function App() {
     });
 
     useEffect(() => {
-        const handleVisibilityChange = async () => {
+        const handleVisibilityChange = () => {
+            console.log('handleVisibilityChange', document.visibilityState);
             if (
                 document.visibilityState === 'hidden' &&
+                appStore.user &&
                 (appStore.user.balance !== appStore.balance ||
                     appStore.user.energy !== appStore.energy ||
                     appStore.user.experience !== appStore.experience)
             ) {
-                await api.sync(appStore.energy, appStore.experience, appStore.balance);
+                api.beacon(appStore.energy, appStore.experience, appStore.balance);
             }
         };
         window.addEventListener('visibilitychange', handleVisibilityChange);

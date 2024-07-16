@@ -13,7 +13,7 @@ const FriendsScreen = observer(function FriendsScreen() {
     useEffect(() => {
         async function init() {
             try {
-                appStore.friends = await api.getFriends();
+                appStore.setFriends(await api.getFriends());
             } catch (e) {
                 setError(e.message);
             }

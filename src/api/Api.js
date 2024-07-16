@@ -102,7 +102,6 @@ class Api {
     }
 
     /**
-     * Авторизует пользователя по ID
      * @returns {Promise<User>}
      * @param userId
      * @param energy
@@ -124,6 +123,20 @@ class Api {
         };
         const result = await _fetch(`${BACKEND_ENDPOINT}/users/${userId}/sync`, params);
         return new User(result);
+    }
+
+    /**
+     * @param userId
+     * @param energy
+     * @param experience
+     * @param balance
+     */
+    beacon(energy, experience, balance, userId = this.userId) {
+        const formData = new FormData();
+        formData.append('energy', energy);
+        formData.append('experience', experience);
+        formData.append('balance', balance);
+        navigator.sendBeacon(`${BACKEND_ENDPOINT}/users/${userId}/beacon`, formData);
     }
 
     async getItems(userId = this.userId) {

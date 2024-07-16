@@ -19,15 +19,17 @@ function TopScreen() {
             <table className="table is-fullwidth">
                 <thead>
                     <tr>
-                        <th>{COIN_TOKEN}</th>
-                        <th>User</th>
+                        <th>Rank</th>
+                        <th>Name</th>
+                        <th>Experience</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {users.map((user) => (
+                    {users.map((user, index) => (
                         <tr key={user.id}>
-                            <td>{user.balance.toLocaleString()}</td>
-                            <td>{user.username}</td>
+                            <td>{index + 1}</td>
+                            <td className={index === 0 ? 'gold' : ''}>{user.username}</td>
+                            <td>{Number(user.experience).toLocaleString()}</td>
                         </tr>
                     ))}
                 </tbody>

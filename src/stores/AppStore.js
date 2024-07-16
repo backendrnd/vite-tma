@@ -65,4 +65,8 @@ export class AppStore {
         }
         return { tapValue, isLvlUp };
     }
+
+    setFriends(friends) {
+        this.friends = friends;
+    }
 }
