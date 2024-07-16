@@ -63,7 +63,16 @@ const App = observer(function App() {
                     appStore.user.energy !== appStore.energy ||
                     appStore.user.experience !== appStore.experience)
             ) {
-                api.beacon(appStore.energy, appStore.experience, appStore.balance);
+                if (!api.beacon(appStore.energy, appStore.experience, appStore.balance)) {
+                    sessionStorage.setItem(
+                        '__lapka__user',
+                        JSON.stringify({
+                            energy: appStore.energy,
+                            experience: appStore.experience,
+                            balance: appStore.balance,
+                        }),
+                    );
+                }
             }
         };
         window.addEventListener('visibilitychange', handleVisibilityChange);

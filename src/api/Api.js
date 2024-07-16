@@ -130,13 +130,14 @@ class Api {
      * @param energy
      * @param experience
      * @param balance
+     * @return {Boolean}
      */
     beacon(energy, experience, balance, userId = this.userId) {
         const formData = new FormData();
         formData.append('energy', energy);
         formData.append('experience', experience);
         formData.append('balance', balance);
-        navigator.sendBeacon(`${BACKEND_ENDPOINT}/users/${userId}/beacon`, formData);
+        return navigator.sendBeacon(`${BACKEND_ENDPOINT}/users/${userId}/beacon`, formData);
     }
 
     async getItems(userId = this.userId) {

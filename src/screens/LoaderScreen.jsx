@@ -3,10 +3,12 @@ import { useAppStore } from '../stores/AppProvider.jsx';
 import { observer } from 'mobx-react-lite';
 import api from '../api/Api.js';
 import { useEffect, useState } from 'react';
+import { useSync } from '../hooks/useSync.js';
 
 const LoaderScreen = observer(function Loader() {
     const appStore = useAppStore();
     const [error, setError] = useState();
+    const { forceSync } = useSync();
 
     useEffect(() => {
         async function init() {
@@ -19,6 +21,14 @@ const LoaderScreen = observer(function Loader() {
                 // appStore.setUser(await api.getUser());
                 await document.fonts.load('260px uicons-solid-straight');
                 appStore.setUser(await api.auth(api.userId, userName, invitedByUserId));
+                const data = sessionStorage.getItem('__lapka__user');
+                if (data) {
+                    const user = JSON.parse(data);
+                    appStore.restoreBackup(user.energy, user.balance, user.experience);
+                    await forceSync();
+                    console.log('restoreBackup', user, appStore.balance);
+                    sessionStorage.removeItem('__lapka__user');
+                }
                 appStore.setTasks(await api.getTasks());
             } catch (e) {
                 setError(e.message);

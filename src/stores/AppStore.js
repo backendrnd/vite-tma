@@ -69,4 +69,10 @@ export class AppStore {
     setFriends(friends) {
         this.friends = friends;
     }
+
+    restoreBackup(energy, balance, experience) {
+        this.energy = energy;
+        this.balance = balance;
+        this.experience = experience;
+    }
 }
