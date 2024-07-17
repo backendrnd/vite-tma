@@ -63,7 +63,7 @@ export class AppStore {
                 isLvlUp = true;
             }
         }
-        return { tapValue, isLvlUp };
+        return {tapValue, isLvlUp};
     }
 
     setFriends(friends) {
@@ -74,5 +74,11 @@ export class AppStore {
         this.energy = energy;
         this.balance = balance;
         this.experience = experience;
+    }
+
+    commitChanges() {
+        this.user.energy = this.energy;
+        this.user.balance = this.balance;
+        this.user.experience = this.experience;
     }
 }

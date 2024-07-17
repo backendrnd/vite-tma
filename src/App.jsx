@@ -54,16 +54,17 @@ const App = observer(function App() {
     });
 
     useEffect(() => {
-        const handleVisibilityChange = () => {
-            console.log('handleVisibilityChange', document.visibilityState);
+        const saveData = () => {
             if (
-                document.visibilityState === 'hidden' &&
                 appStore.user &&
                 (appStore.user.balance !== appStore.balance ||
                     appStore.user.energy !== appStore.energy ||
                     appStore.user.experience !== appStore.experience)
             ) {
-                if (!api.beacon(appStore.energy, appStore.experience, appStore.balance)) {
+                console.log('save!');
+                if (api.beacon(appStore.energy, appStore.experience, appStore.balance)) {
+                    appStore.commitChanges();
+                } else {
                     localStorage.setItem(
                         '__lapka__user',
                         JSON.stringify({
@@ -75,9 +76,21 @@ const App = observer(function App() {
                 }
             }
         };
+        const handleVisibilityChange = () => {
+            console.log('handleVisibilityChange', document.visibilityState);
+            if (document.visibilityState === 'hidden') {
+                saveData();
+            }
+        };
+        const unload = () => {
+            saveData();
+            console.log('unload');
+        };
+        window.addEventListener('unload', unload);
         window.addEventListener('visibilitychange', handleVisibilityChange);
         return () => {
             window.removeEventListener('visibilitychange', handleVisibilityChange);
+            window.removeEventListener('unload', unload);
         };
     }, [appStore]);
 
