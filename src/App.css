@@ -260,3 +260,14 @@ li.is-disabled > a {
   background-clip: text;
   -webkit-background-clip: text;
 }
+
+.boost_amount {
+  position: absolute;
+  font-size: 16px;
+  right: 0;
+  bottom: 0;
+  background: #FF7F00;
+  color: black;
+  border-radius: 24px;
+  width: 24px;
+}

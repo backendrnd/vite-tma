@@ -146,6 +146,7 @@ const HomeScreen = observer(function Home() {
                                 }}
                             >
                                 <i className="fi fi-ss-fish"></i>
+                                <div className="boost_amount">∞</div>
                             </span>
                         </button>
                     </div>
@@ -160,6 +161,7 @@ const HomeScreen = observer(function Home() {
                                 onClick={onBoostClick}
                             >
                                 <i className="fi fi-ss-lion-head"></i>
+                                <div className="boost_amount">∞</div>
                             </span>
                         </button>
                     </div>
