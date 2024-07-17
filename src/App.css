@@ -276,3 +276,15 @@ li.is-disabled > a {
   color: #FFACAC;
   box-shadow: 4vmin 100px 200px currentColor;
 }
+
+.hero-head {
+  z-index: 1;
+}
+
+.beast {
+  visibility: hidden;
+}
+
+.beast.is-active {
+  visibility: visible;
+}

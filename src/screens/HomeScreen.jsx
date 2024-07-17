@@ -110,7 +110,14 @@ const HomeScreen = observer(function Home() {
                     </p>
                 </div>
             </div>
-            <div className={isBoostActive ? 'beast' : ''}></div>
+            <div className={'beast' + (isBoostActive ? ' is-active' : '')}>
+                <div className="snow layer1 a"></div>
+                <div className="snow layer1"></div>
+                <div className="snow layer2 a"></div>
+                <div className="snow layer2"></div>
+                <div className="snow layer3 a"></div>
+                <div className="snow layer3"></div>
+            </div>
             <div className="hero-body p-0">
                 <div className="container has-text-centered p-2">
                     <span
