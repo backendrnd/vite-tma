@@ -1,9 +1,10 @@
-import WebApp from '@twa-dev/sdk';
 import { useAppStore } from '../stores/AppProvider.jsx';
 import { observer } from 'mobx-react-lite';
 import api from '../api/Api.js';
 import { useEffect, useState } from 'react';
 import { useSync } from '../hooks/useSync.js';
+
+const WebApp = window.Telegram.WebApp;
 
 const LoaderScreen = observer(function Loader() {
     const appStore = useAppStore();
@@ -36,6 +37,7 @@ const LoaderScreen = observer(function Loader() {
         }
         // noinspection JSIgnoredPromiseFromCall
         init();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [appStore]);
 
     return (

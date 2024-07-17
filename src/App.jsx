@@ -11,7 +11,8 @@ import TasksScreen from './screens/TasksScreen.jsx';
 import FriendsScreen from './screens/FriendsScreen.jsx';
 import api from './api/Api.js';
 import { Screens } from './constants/main.js';
-import WebApp from '@twa-dev/sdk';
+
+const WebApp = window.Telegram.WebApp;
 
 const getScreen = (screen, setActiveScreen) => {
     switch (screen) {
@@ -85,16 +86,21 @@ const App = observer(function App() {
         };
 
         const handleBeforeUnload = () => {
-            WebApp.showAlert('handleBeforeUnload');
             console.log('handleBeforeUnload');
+            WebApp.showAlert('handleBeforeUnload');
             saveData();
         };
 
         const handleUnload = () => {
-            WebApp.showAlert('handleUnload');
             console.log('handleUnload');
+            WebApp.showAlert('handleUnload');
             saveData();
         };
+
+        WebApp.onEvent('popupClosed', () => {
+            console.log('popupClosed');
+            WebApp.showAlert('popupClosed');
+        });
 
         window.addEventListener('beforeunload', handleBeforeUnload);
         window.addEventListener('visibilitychange', handleVisibilityChange);

@@ -3,8 +3,9 @@ import { observer } from 'mobx-react-lite';
 import { ErrorNotification } from '../components/Notification.jsx';
 import { copyToClipboard } from '../helpers/ClipboardHelper.js';
 import api from '../api/Api.js';
-import WebApp from '@twa-dev/sdk';
 import { useAppStore } from '../stores/AppProvider.jsx';
+
+const WebApp = window.Telegram.WebApp;
 
 const FriendsScreen = observer(function FriendsScreen() {
     const [error, setError] = useState();
