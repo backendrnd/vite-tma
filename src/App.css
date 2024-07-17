@@ -271,3 +271,8 @@ li.is-disabled > a {
   border-radius: 24px;
   width: 24px;
 }
+
+.beast-x {
+  color: #FFACAC;
+  box-shadow: 4vmin 100px 200px currentColor;
+}

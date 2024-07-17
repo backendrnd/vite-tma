@@ -110,6 +110,7 @@ const HomeScreen = observer(function Home() {
                     </p>
                 </div>
             </div>
+            <div className={isBoostActive ? 'beast' : ''}></div>
             <div className="hero-body p-0">
                 <div className="container has-text-centered p-2">
                     <span
