@@ -11,6 +11,7 @@ import TasksScreen from './screens/TasksScreen.jsx';
 import FriendsScreen from './screens/FriendsScreen.jsx';
 import api from './api/Api.js';
 import { Screens } from './constants/main.js';
+import WebApp from '@twa-dev/sdk';
 
 const getScreen = (screen, setActiveScreen) => {
     switch (screen) {
@@ -82,24 +83,32 @@ const App = observer(function App() {
                 saveData();
             }
         };
-        const handleBeforeUnload = (e) => {
+
+        const handleBeforeUnload = () => {
+            WebApp.showAlert('handleBeforeUnload');
             console.log('handleBeforeUnload');
             saveData();
         };
 
+        const handleUnload = () => {
+            WebApp.showAlert('handleUnload');
+            console.log('handleUnload');
+            saveData();
+        };
 
         window.addEventListener('beforeunload', handleBeforeUnload);
         window.addEventListener('visibilitychange', handleVisibilityChange);
+        window.addEventListener('unload', handleUnload);
         return () => {
             window.removeEventListener('visibilitychange', handleVisibilityChange);
             window.removeEventListener('beforeunload', handleBeforeUnload);
+            window.removeEventListener('unload', handleUnload);
         };
     }, [appStore]);
 
     if (appStore.user === undefined || appStore.tasks === undefined) {
         return <LoaderScreen />;
     }
-
 
     return (
         <>
