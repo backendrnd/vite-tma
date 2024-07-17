@@ -133,12 +133,13 @@ class Api {
      * @return {Boolean}
      */
     beacon(energy, experience, balance, userId = this.userId) {
-        return false;
         const formData = new FormData();
         formData.append('energy', energy);
         formData.append('experience', experience);
         formData.append('balance', balance);
-        return navigator.sendBeacon(`${BACKEND_ENDPOINT}/users/${userId}/beacon`, formData);
+        const result = navigator.sendBeacon(`${BACKEND_ENDPOINT}/users/${userId}/beacon`, formData);
+        console.log('beacon', result);
+        return false;
     }
 
     async getItems(userId = this.userId) {

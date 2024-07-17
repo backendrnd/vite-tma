@@ -82,21 +82,24 @@ const App = observer(function App() {
                 saveData();
             }
         };
-        const unload = () => {
+        const handleBeforeUnload = (e) => {
+            console.log('handleBeforeUnload');
             saveData();
-            console.log('unload');
         };
-        window.addEventListener('unload', unload);
+
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
         window.addEventListener('visibilitychange', handleVisibilityChange);
         return () => {
             window.removeEventListener('visibilitychange', handleVisibilityChange);
-            window.removeEventListener('unload', unload);
+            window.removeEventListener('beforeunload', handleBeforeUnload);
         };
     }, [appStore]);
 
     if (appStore.user === undefined || appStore.tasks === undefined) {
         return <LoaderScreen />;
     }
+
 
     return (
         <>
