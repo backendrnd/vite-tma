@@ -9,7 +9,6 @@ WebApp.expand();
 // window.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
 // window.scrollTo(0, 100);
 WebApp.ready();
-WebApp.enableClosingConfirmation();
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>

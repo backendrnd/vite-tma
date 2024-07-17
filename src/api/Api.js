@@ -133,6 +133,7 @@ class Api {
      * @return {Boolean}
      */
     beacon(energy, experience, balance, userId = this.userId) {
+        return false;
         const formData = new FormData();
         formData.append('energy', energy);
         formData.append('experience', experience);
