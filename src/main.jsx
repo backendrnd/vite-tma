@@ -7,7 +7,7 @@ import { AppStoreProvider } from './stores/AppProvider';
 window.Telegram.WebApp.ready();
 window.Telegram.WebApp.expand();
 window.Telegram.WebApp.disableVerticalSwipes();
-window.Telegram.WebApp.enableClosingConfirmation();
+// window.Telegram.WebApp.enableClosingConfirmation();
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>

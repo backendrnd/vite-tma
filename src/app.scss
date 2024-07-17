@@ -1,10 +1,10 @@
-$d: 70;      // density
-$w: 375;     // grid size
+$d: 14;      // density
+$w: 667;     // grid size
 $s: 2s;       // speed
 
 $grad: ();
 @for $i from 0 to $d {
-    $v: random(8) + 4;
+    $v: random(20) + 4;
     $a: random(5) * .1 + .5;
     $grad: $grad, radial-gradient(
                     $v+px $v+px at
@@ -27,7 +27,7 @@ $grad: ();
     content: "";
 }
 .beast:after {
-    margin-left: -$w/3 + px;
+    margin-left: calc(-1 * $w / 3);
     opacity: .4;
     animation-duration: $s*2;
     animation-direction: reverse;
@@ -36,7 +36,7 @@ $grad: ();
 .beast:before {
     animation-duration: $s*3;
     animation-direction: reverse;
-    margin-left: -$w/2 + px;
+    margin-left: calc(-1 * $w /2);
     opacity: .65;
     filter: blur(1.5px);
 }
