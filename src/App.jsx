@@ -80,35 +80,23 @@ const App = observer(function App() {
         };
         const handleVisibilityChange = () => {
             console.log('handleVisibilityChange', document.visibilityState);
+            /*
             if (document.visibilityState === 'hidden') {
                 saveData();
             }
+             */
         };
 
         const handleBeforeUnload = () => {
             console.log('handleBeforeUnload');
-            WebApp.showAlert('handleBeforeUnload');
             saveData();
         };
-
-        const handleUnload = () => {
-            console.log('handleUnload');
-            WebApp.showAlert('handleUnload');
-            saveData();
-        };
-
-        WebApp.onEvent('popupClosed', () => {
-            console.log('popupClosed');
-            WebApp.showAlert('popupClosed');
-        });
 
         window.addEventListener('beforeunload', handleBeforeUnload);
         window.addEventListener('visibilitychange', handleVisibilityChange);
-        window.addEventListener('unload', handleUnload);
         return () => {
             window.removeEventListener('visibilitychange', handleVisibilityChange);
             window.removeEventListener('beforeunload', handleBeforeUnload);
-            window.removeEventListener('unload', handleUnload);
         };
     }, [appStore]);
 

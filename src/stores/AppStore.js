@@ -58,12 +58,13 @@ export class AppStore {
             this.balance = this.balance + tapValue;
             this.experience = this.experience + tapValue;
             this.level = getLevelByExperience(this.experience);
+            this.saveBackup();
             if (currentLevel !== this.level) {
                 this.energy = getMaxEnergy(this.level);
                 isLvlUp = true;
             }
         }
-        return {tapValue, isLvlUp};
+        return { tapValue, isLvlUp };
     }
 
     setFriends(friends) {
@@ -74,6 +75,17 @@ export class AppStore {
         this.energy = energy;
         this.balance = balance;
         this.experience = experience;
+    }
+
+    saveBackup() {
+        localStorage.setItem(
+            '__lapka__user',
+            JSON.stringify({
+                energy: this.energy,
+                experience: this.experience,
+                balance: this.balance,
+            }),
+        );
     }
 
     commitChanges() {
