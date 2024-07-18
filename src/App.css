@@ -233,6 +233,11 @@ li.is-disabled > a {
   max-height: calc(100vh - 62px - 56px);
 }
 
+.hero-body.is-fullheight-withrank {
+  height: calc(100vh - 62px - 66px);
+}
+
+
 .button.is-boost {
   width: 64px;
   height: 64px;
@@ -287,4 +292,21 @@ li.is-disabled > a {
 
 .beast.is-active {
   visibility: visible;
+}
+
+tr.is-main {
+  background: #222322;
+}
+
+
+.table thead tr th:nth-child(1) {
+  width: 55px;
+}
+
+.table thead tr th:nth-child(3) {
+  width: 55px;
+}
+
+.table thead tr th:nth-child(4) {
+  width: 80px;
 }

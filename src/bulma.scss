@@ -12,6 +12,10 @@ $main: #FF7F00;
   $tabs-toggle-link-active-border-color: $main,
 );
 
+@use "bulma/sass/elements/table" with (
+  $table-cell-padding: 0.5em 0.5em,
+);
+
 @forward "bulma/sass";
 
 // Import the components you need
