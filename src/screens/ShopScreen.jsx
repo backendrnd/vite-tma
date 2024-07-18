@@ -144,7 +144,66 @@ const ITEMS = [
     },
 ];
 
+const Tabs = {
+    MINING: 'Mining',
+    BOOSTERS: 'Boosters',
+    SPECIALS: 'Specials',
+};
+
+const getContent = (tab) => {
+    switch (tab) {
+        case Tabs.MINING:
+            return <MiningTab />;
+        default:
+            return <>Coming soon.</>;
+    }
+};
+
+const Tab = ({ title, id, tab, onClick, isDisabled = false }) => {
+    return (
+        <li
+            className={id === tab ? 'is-active' : '' + (isDisabled ? ' is-disabled' : '')}
+            onClick={() => {
+                !isDisabled && onClick(id);
+            }}
+        >
+            <a>{title}</a>
+        </li>
+    );
+};
+
 function ShopScreen() {
+    const [tab, setTab] = useState(Tabs.MINING);
+    const appStore = useAppStore();
+
+    const onClick = (newTab) => {
+        setTab(newTab);
+    };
+
+    return (
+        <>
+            <div className="hero hero-head">
+                <div className="container has-text-centered pt-2">
+                    <p className="title">
+                        {appStore.balance.toLocaleString()} {COIN_TOKEN}
+                    </p>
+                </div>
+            </div>
+            <div className="hero-body is-fullheight is-flex-direction-column p-0">
+                <div className="tabs is-toggle is-fullwidth p-4 is-flex-shrink-0 mb-0">
+                    <ul>
+                        <Tab title={'Mining'} id={Tabs.MINING} tab={tab} onClick={onClick} />
+                        <Tab title={'Boosters'} id={Tabs.BOOSTERS} tab={tab} onClick={onClick} />
+                        <Tab title={'Specials'} id={Tabs.SPECIALS} tab={tab} onClick={onClick} />
+                    </ul>
+                </div>
+                <div className="shop-tab box is-shadowless is-flex-grow-1 is-overflow-auto ml-4 mr-4 p-2">{getContent(tab)}</div>
+            </div>
+        </>
+    );
+}
+
+function MiningTab() {
     const [error, setError] = useState();
     const appStore = useAppStore();
     const { forceSync } = useSync();
@@ -172,19 +231,12 @@ function ShopScreen() {
     }, []);
 
     return (
-        <div className="top">
-            <div className="hero hero-head">
-                <div className="container has-text-centered pt-2">
-                    <p className="title mb-1">
-                        {appStore.balance.toLocaleString()} {COIN_TOKEN}
-                    </p>
-                </div>
-            </div>
+        <>
             {ITEMS.map((item, index) => (
                 <ShopItem key={index} item={item} purchases={purchases} onBuy={() => onBuyItem(item.id)} />
             ))}
             <ErrorNotification error={error} setError={setError} />
-        </div>
+        </>
     );
 }
 
@@ -229,8 +281,8 @@ const ShopItem = ({ item, purchases, onBuy }) => {
         (purchases[item.id] || 0) < (item.limit || Number.MAX_SAFE_INTEGER) ? <>Buy for {priceText}</> : 'Max Limit';
 
     return (
-        <div className="box">
-            <article className="media">
+        <div className="box p-0">
+            <article className="media pl-2 pr-2 pt-1 pb-1 mb-0">
                 <div className="media-left">
                     <figure className="image is-64x64">
                         <img src={icon} alt="Image" />
@@ -245,7 +297,7 @@ const ShopItem = ({ item, purchases, onBuy }) => {
                     </div>
                 </div>
             </article>
-            <button className={'button' + (isAvailable ? ' is-primary' : '')} disabled={!isAvailable} onClick={onBuy}>
+            <button className={'button is-purchase' + (isAvailable ? ' is-primary' : '')} disabled={!isAvailable} onClick={onBuy}>
                 {buttonTitle}
             </button>
         </div>

@@ -82,7 +82,7 @@ const FarmingScreen = observer(function FarmingScreen({ setActiveScreen }) {
                 </div>
             </div>
             <div className="hero-body is-flex-direction-column p-0">
-                <div className="container has-text-centered p-2">
+                <div className="container has-text-centered p-2 pl-4 pr-4">
                     <div className="block pt-4 mb-0">
                         <MiningButton task={task} onStartFarming={onStartFarming} onClaimTask={onClaimTask} />
                     </div>

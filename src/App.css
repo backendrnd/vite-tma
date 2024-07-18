@@ -237,6 +237,9 @@ li.is-disabled > a {
   height: calc(100vh - 62px - 66px);
 }
 
+.hero-body.is-fullheight {
+  height: calc(100vh - 62px - 44px);
+}
 
 .button.is-boost {
   width: 64px;
@@ -309,4 +312,22 @@ tr.is-main {
 
 .table thead tr th:nth-child(4) {
   width: 80px;
+}
+
+.tabs.is-fullwidth {
+  width: 100%;
+}
+
+.button.is-purchase {
+  margin-left: 0.5rem;
+  margin-bottom: 0.5rem;
+  width: calc(100% - 1rem);
+}
+
+.box .is-fullwidth{
+  width: 100%;
+}
+
+.shop-tab {
+  width: calc(100% - 2rem);
 }

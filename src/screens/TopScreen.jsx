@@ -45,7 +45,7 @@ function TopScreen() {
                 </div>
             </div>
             <div className="hero-foot">
-                <span className="has-text-weight-bold pl-2">Character Rank</span>
+                <span className="has-text-weight-bold pl-2">Your Rank</span>
                 <table className="table is-fullwidth is-striped">
                     <thead>
                         <tr className="is-main">

@@ -85,7 +85,7 @@ const FriendsScreen = observer(function FriendsScreen() {
                 <ErrorNotification error={error} setError={setError} />
             </div>
             <div className="hero-foot">
-                <div className="container has-text-centered p-2">
+                <div className="container has-text-centered p-2 pl-4 pr-4">
                     <button className="button is-primary is-fullwidth" onClick={onFriendInvite}>
                         Invite a friend
                     </button>
