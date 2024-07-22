@@ -156,6 +156,23 @@ class Api {
     async getFriends(userId = this.userId) {
         return await _fetch(`${BACKEND_ENDPOINT}/friends/${userId}`);
     }
+
+    /**
+     * Игры
+     */
+    async playFlipCoinGame(userId, bet) {
+        const data = {
+            bet,
+        };
+        const params = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        };
+        return await _fetch(`${BACKEND_ENDPOINT}/games/flipcoin/${userId}`, params);
+    }
 }
 
 const api = new Api();

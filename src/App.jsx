@@ -79,7 +79,6 @@ const App = observer(function App() {
             }
         };
         const handleVisibilityChange = () => {
-            console.log('handleVisibilityChange', document.visibilityState);
             /*
             if (document.visibilityState === 'hidden') {
                 saveData();

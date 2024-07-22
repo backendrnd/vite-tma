@@ -2,10 +2,10 @@ import { useRef, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useAppStore } from '../stores/AppProvider.jsx';
 import { ErrorNotification } from '../components/Notification.jsx';
-import { COIN_TOKEN } from '../constants/main.js';
 import { getLevelByExperience, getMaxEnergy } from '../helpers/ExperienceHelper.js';
 import { EXPERIENCE_TABLE, MAX_LEVEL } from '../constants/experience-table.js';
 import { useSync } from '../hooks/useSync.js';
+import HeadBalance from '../components/HeadBalance.jsx';
 
 const HomeScreen = observer(function Home() {
     const appStore = useAppStore();
@@ -103,13 +103,7 @@ const HomeScreen = observer(function Home() {
 
     return (
         <>
-            <div className="hero hero-head">
-                <div className="container has-text-centered pt-2">
-                    <p className="title">
-                        {appStore.balance.toLocaleString()} {COIN_TOKEN}
-                    </p>
-                </div>
-            </div>
+            <HeadBalance />
             <div className={'beast' + (isBoostActive ? ' is-active' : '')}>
                 <div className="snow layer1 a"></div>
                 <div className="snow layer1"></div>

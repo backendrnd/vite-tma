@@ -4,6 +4,7 @@ import api from '../api/Api.js';
 import { COIN_TOKEN } from '../constants/main.js';
 import { useAppStore } from '../stores/AppProvider.jsx';
 import { useSync } from '../hooks/useSync.js';
+import HeadBalance from '../components/HeadBalance.jsx';
 
 const ITEMS_CODE = {
     VOLUME_1: 1,
@@ -128,6 +129,7 @@ const ITEMS = [
         required: ITEMS_CODE.TIME_4,
         limit: 1,
     },
+    /*
     {
         id: ITEMS_CODE.HALF_50,
         icon: 'shop_icon_2.png',
@@ -142,6 +144,7 @@ const ITEMS = [
         description: `Burns 1000 ${COIN_TOKEN} from the leader`,
         price: [0, 1],
     },
+     */
 ];
 
 const Tabs = {
@@ -174,7 +177,6 @@ const Tab = ({ title, id, tab, onClick, isDisabled = false }) => {
 
 function ShopScreen() {
     const [tab, setTab] = useState(Tabs.MINING);
-    const appStore = useAppStore();
 
     const onClick = (newTab) => {
         setTab(newTab);
@@ -182,14 +184,9 @@ function ShopScreen() {
 
     return (
         <>
-            <div className="hero hero-head">
-                <div className="container has-text-centered pt-2">
-                    <p className="title">
-                        {appStore.balance.toLocaleString()} {COIN_TOKEN}
-                    </p>
-                </div>
-            </div>
+            <HeadBalance />
             <div className="hero-body is-fullheight is-flex-direction-column p-0">
+                {/**
                 <div className="tabs is-toggle is-fullwidth p-4 is-flex-shrink-0 mb-0">
                     <ul>
                         <Tab title={'Mining'} id={Tabs.MINING} tab={tab} onClick={onClick} />
@@ -197,7 +194,10 @@ function ShopScreen() {
                         <Tab title={'Specials'} id={Tabs.SPECIALS} tab={tab} onClick={onClick} />
                     </ul>
                 </div>
-                <div className="shop-tab box is-shadowless is-flex-grow-1 is-overflow-auto ml-4 mr-4 p-2">{getContent(tab)}</div>
+                 **/}
+                <div className="shop-tab box is-shadowless is-flex-grow-1 is-overflow-auto ml-4 mr-4 p-2">
+                    {getContent(tab)}
+                </div>
             </div>
         </>
     );
@@ -297,7 +297,11 @@ const ShopItem = ({ item, purchases, onBuy }) => {
                     </div>
                 </div>
             </article>
-            <button className={'button is-purchase' + (isAvailable ? ' is-primary' : '')} disabled={!isAvailable} onClick={onBuy}>
+            <button
+                className={'button is-purchase' + (isAvailable ? ' is-primary' : '')}
+                disabled={!isAvailable}
+                onClick={onBuy}
+            >
                 {buttonTitle}
             </button>
         </div>

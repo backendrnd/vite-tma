@@ -27,6 +27,11 @@ export class AppStore {
         this.level = getLevelByExperience(this.experience);
     }
 
+    setUserBalance(balance) {
+        this.user.balance = balance;
+        this.balance = balance;
+    }
+
     /**
      * @param {User} user
      * @param energy
@@ -69,6 +74,10 @@ export class AppStore {
 
     setFriends(friends) {
         this.friends = friends;
+    }
+
+    changeBalance(value) {
+        this.balance = this.balance + value;
     }
 
     restoreBackup(energy, balance, experience) {

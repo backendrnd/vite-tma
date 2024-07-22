@@ -3,7 +3,7 @@ html {
 }
 
 #root {
-  max-width: 1280px;
+  max-width: 768px;
   margin: 0 auto;
 }
 
@@ -331,3 +331,48 @@ tr.is-main {
 .shop-tab {
   width: calc(100% - 2rem);
 }
+
+.flip {
+  animation: 1s flip;
+  animation-fill-mode: forwards;
+}
+
+@keyframes flip {
+  100% {
+    transform: rotateX(180deg);
+  }
+}
+
+
+i[class^="fi-ss-"]:before, i[class*=" fi-ss-"]:before, span[class^="fi-ss-"]:before, span[class*="fi-ss-"]:before {
+  display: block;
+}
+
+.coin {
+  transform-style: preserve-3d;
+}
+
+.icon.is-coin {
+  font-size: 260px;
+  /* width: 260px; */
+  /* height: 260px; */
+  user-select: none;
+  touch-action: none;
+  position: absolute;
+  left: 0;
+  -webkit-backface-visibility: hidden;
+  width: 100%;
+  height: 100%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+}
+
+.icon.is-coin.is-playing {
+  color:gray;
+}
+
+.icon.is-coin:nth-child(2) {
+  transform: rotateY(-180deg);
+}
+
