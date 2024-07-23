@@ -5,9 +5,11 @@ import { useAppStore } from '../../stores/AppProvider.jsx';
 import api from '../../api/Api.js';
 import { useSync } from '../../hooks/useSync.js';
 
+const BETS = [100, 1000, 5000, 10000];
+
 function CoinFlipGame() {
     const appStore = useAppStore();
-    const [bet, setBet] = useState(100);
+    const [bet, setBet] = useState(BETS[0]);
     const [isPlaying, setIsPlaying] = useState(false);
     const angleRef = useRef(0);
     const animationRef = useRef(undefined);
@@ -94,10 +96,9 @@ function CoinFlipGame() {
             <div className="hero-foot">
                 <div className="container has-text-centered p-0 is-flex-grow-0">Your bet</div>
                 <div className="columns is-mobile is-multiline p-4">
-                    <BetButton value={100} />
-                    <BetButton value={1000} />
-                    <BetButton value={5000} />
-                    <BetButton value={10000} />
+                    {BETS.map((bet) => {
+                        return <BetButton value={bet} key={bet} />;
+                    })}
                 </div>
             </div>
         </>
