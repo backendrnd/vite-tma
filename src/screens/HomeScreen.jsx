@@ -6,6 +6,7 @@ import { getLevelByExperience, getMaxEnergy } from '../helpers/ExperienceHelper.
 import { EXPERIENCE_TABLE, MAX_LEVEL } from '../constants/experience-table.js';
 import { useSync } from '../hooks/useSync.js';
 import HeadBalance from '../components/HeadBalance.jsx';
+import { Beast } from '../components/beast/Beast.jsx';
 
 const HomeScreen = observer(function Home() {
     const appStore = useAppStore();
@@ -104,14 +105,7 @@ const HomeScreen = observer(function Home() {
     return (
         <>
             <HeadBalance />
-            <div className={'beast' + (isBoostActive ? ' is-active' : '')}>
-                <div className="snow layer1 a"></div>
-                <div className="snow layer1"></div>
-                <div className="snow layer2 a"></div>
-                <div className="snow layer2"></div>
-                <div className="snow layer3 a"></div>
-                <div className="snow layer3"></div>
-            </div>
+            <Beast isActive={isBoostActive} />
             <div className="hero-body p-0">
                 <div className="container has-text-centered p-2">
                     <span

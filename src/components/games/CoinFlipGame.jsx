@@ -4,10 +4,12 @@ import { useRef, useState } from 'react';
 import { useAppStore } from '../../stores/AppProvider.jsx';
 import api from '../../api/Api.js';
 import { useSync } from '../../hooks/useSync.js';
+import { observer } from 'mobx-react-lite';
+import { Coin } from '../coin/Coin';
 
 const BETS = [100, 1000, 5000, 10000];
 
-function CoinFlipGame() {
+const CoinFlipGame = observer(function CoinFlipGame({ onBack }) {
     const appStore = useAppStore();
     const [bet, setBet] = useState(BETS[0]);
     const [isPlaying, setIsPlaying] = useState(false);
@@ -30,7 +32,7 @@ function CoinFlipGame() {
     };
 
     const onClick = async () => {
-        if (isPlaying) {
+        if (isPlaying || appStore.user.balance < bet) {
             return;
         }
         setIsPlaying(true);
@@ -66,7 +68,7 @@ function CoinFlipGame() {
                     onClick={() => {
                         setBet(value);
                     }}
-                    disabled={appStore.user.balance < bet}
+                    disabled={appStore.user.balance < value}
                 >
                     {value.toLocaleString()} {COIN_TOKEN}
                 </button>
@@ -76,23 +78,15 @@ function CoinFlipGame() {
 
     return (
         <>
-            <HeadBalance />
+            <HeadBalance onBack={onBack} />
             <div className="container has-text-centered p-0 pt-2 is-flex-grow-0">
                 Tap to play, lose your bet or win 2x
             </div>
             <div className="hero-body p-0">
                 <div className="container has-text-centered p-2">
-                    <div className="coin" id="coin" onClick={onClick}>
-                        <span className={'icon is-coin' + (isPlaying ? ' is-playing' : '')}>
-                            <i className={'fi fi-ss-usd-circle'}></i>
-                        </span>
-                        <span className={'icon is-coin' + (isPlaying ? ' is-playing' : '')}>
-                            <i className={'fi fi-ss-circle-0'}></i>
-                        </span>
-                    </div>
+                    <Coin onClick={onClick} disabled={isPlaying || appStore.user.balance < bet} />
                 </div>
             </div>
-            <div className="point" />
             <div className="hero-foot">
                 <div className="container has-text-centered p-0 is-flex-grow-0">Your bet</div>
                 <div className="columns is-mobile is-multiline p-4">
@@ -103,6 +97,6 @@ function CoinFlipGame() {
             </div>
         </>
     );
-}
+});
 
 export default CoinFlipGame;

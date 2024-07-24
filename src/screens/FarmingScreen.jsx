@@ -12,10 +12,10 @@ const Games = {
     COIN_FLIP: 'CoinFlip',
 };
 
-const getGame = (game) => {
+const getGame = (game, onBack) => {
     switch (game) {
         case Games.COIN_FLIP:
-            return <CoinFlipGame />;
+            return <CoinFlipGame onBack={onBack} />;
         default:
             return <></>;
     }
@@ -28,7 +28,10 @@ const FarmingScreen = observer(function FarmingScreen({ setActiveScreen }) {
     const [game, setGame] = useState(null);
 
     if (game) {
-        return getGame(game);
+        const onBack = () => {
+            setGame(null);
+        };
+        return getGame(game, onBack);
     }
 
     return (
@@ -61,7 +64,12 @@ const FarmingScreen = observer(function FarmingScreen({ setActiveScreen }) {
                         <MiningButton setError={setError} />
                     </div>
                     <div className="block pt-4">
-                        <button className="button is-game is-fullwidth h-80" onClick={() => {setGame(Games.COIN_FLIP)}}>
+                        <button
+                            className="button is-game is-fullwidth h-80"
+                            onClick={() => {
+                                setGame(Games.COIN_FLIP);
+                            }}
+                        >
                             Coin Flip
                             <div className="button-icon__left">
                                 <span className="icon ml-0">
